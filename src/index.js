@@ -12,10 +12,11 @@ import Login from './containers/login/Login';
 import RestrictPage from './containers/misc/RestrictPage';
 import Home from './containers/home/Home';
 import UsersPage from './containers/user/UsersPage';
+import UsersTable from './containers/user/UsersTable';
 import ReposPage from './containers/repo/ReposPage';
 import NotFound from './containers/misc/NotFound';
 
-import './index.css';
+import './styles/index.css';
 
 const store = configureStore();
 //const history = syncHistoryWithStore(browserHistory, store);
@@ -28,6 +29,7 @@ ReactDOM.render(
                 <Route component={RestrictPage}>
                     <IndexRoute component={Home}/>
                     <Route path="/users" component={UsersPage}/>
+                    <Route path="/users-list" component={UsersTable}/>
                     <Route path="/repos" component={ReposPage}/>
                 </Route>
 

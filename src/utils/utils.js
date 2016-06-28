@@ -6,6 +6,7 @@ export function checkStatus(response) {
         error.response = response;
         throw error;
     }
+
     return response;
 }
 
@@ -15,7 +16,6 @@ export function parseJSON(response) {
 
 //Parse error message from server
 export function parseError(error) {
-    debugger;
     const response = error.response;
     if (response) {
         parseJSON(response)
@@ -66,7 +66,6 @@ export function loadUserProfile() {
 
 export function getUserToken() {
     var store = localStorage.getItem(ID_TOKEN);
-    debugger;
     if (store) {
         var userData = JSON.parse(store);
         if (userData['token']) {

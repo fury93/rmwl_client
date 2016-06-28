@@ -8,7 +8,8 @@ import {
     getUserToken,
     parseError
 } from '../utils/utils';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/api';
+
+import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -57,7 +58,6 @@ export function login(username, password) {
         }).then(checkStatus)
             .then(parseJSON)
             .then((result) => {
-                debugger;
                 if (result.status === STATUS_SUCCESS) {
                     dispatch(loginSuccess(result.data.user));
                 } else {
@@ -103,7 +103,7 @@ export function logout(user) {
             mode: 'cors',
             headers: {
                 'Authorization': 'Bearer ' + getUserToken(),
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
         }).then(checkStatus)
             .then(parseJSON)

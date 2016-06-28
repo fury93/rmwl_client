@@ -23,7 +23,6 @@ class App extends Component {
         const { user } = this.props;
         return (
             <div className="container-fluid">
-
                 <Header location={this.props.location} user={user} handleLogout={() => this.handleLogout()}/>
                 <div className="appContent">
                     {this.props.children}

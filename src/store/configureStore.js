@@ -5,6 +5,9 @@ import createLogger from 'redux-logger';
 import auth from '../reducers/auth';
 import { selectedUsersPage, usersByPage } from '../reducers/users';
 import { selectedReposPage, reposByPage, repoTableSize } from '../reducers/repos';
+import reduxCrud from 'redux-crud';
+import userReducer from '../reducers/user';
+import {reducer as formReducer} from 'redux-form';
 
 const logger = createLogger();
 const rootReducer = combineReducers(
@@ -15,6 +18,8 @@ const rootReducer = combineReducers(
         selectedReposPage,
         reposByPage,
         repoTableSize,
+        users: userReducer,
+        form: formReducer,
 
         routing: routerReducer
     }

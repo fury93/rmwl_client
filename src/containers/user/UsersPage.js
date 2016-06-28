@@ -51,8 +51,8 @@ class UsersPage extends Component {
             <div className="container-fluid">
                 <nav>
                     <ul className="pager">
-                        <li className={'pager-prev' + (page > 1 ? '' : ' disabled')}><a href="#"
-                                                                                        onClick={this.handlePreviousPageClick}>Previous</a>
+                        <li className={'pager-prev' + (page > 1 ? '' : ' disabled')}>
+                            <a href="#"onClick={this.handlePreviousPageClick}>Previous</a>
                         </li>
 
                         {isFetching ? (

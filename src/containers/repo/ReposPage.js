@@ -7,7 +7,7 @@ import {Table, Column, Cell} from 'fixed-data-table';
 
 import { invalidateReposPage, selectReposPage, fetchTopReposIfNeeded, resizeRepoTable } from '../../actions/repos';
 
-import './fixed-data-table.css';
+import '../../styles/fixed-data-table.css';
 import './repo.css';
 
 const TextCell = ({rowIndex, data, col, ...props}) => (
