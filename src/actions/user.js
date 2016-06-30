@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
 import 'isomorphic-fetch';
+import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
+
 import {
     ID_TOKEN,
     checkStatus,
@@ -37,19 +38,16 @@ let actionCreators = {
                     }
                 })
                 .catch((error) => {
-                    debugger;
-                    const errorObj = parseError(error);
-                    dispatch(baseActionCreators.fetchError(errorObj))
+                    dispatch(baseActionCreators.fetchError(error));
+                    console.error(error.toString());
                 });
         };
     },
 
     create(user) {
         return dispatch => {
-            dispatch(baseActionCreators.fetchStart());
-
             const cid = cuid();
-            user = user.merge({id: cid});
+            user = Object.assign({}, user, {id: cid});
             dispatch(baseActionCreators.createStart(user));
 
             return fetch(`${API_URL}/v1/user`, {
@@ -66,77 +64,74 @@ let actionCreators = {
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.createSuccess(result.data, cid));
                     } else {
-                        dispatch(baseActionCreators.createError({'message': result.errors}))
+                        debugger;
+                        dispatch(baseActionCreators.createError(result.errors, user))
                     }
                 })
                 .catch((error) => {
-                    debugger;
+                    dispatch(baseActionCreators.createError(error, user))
                     console.error(error.toString())
-                    /*const errorObj = parseError(error);
-                    dispatch(baseActionCreators.createError(errorObj))*/
                 });
         };
     },
 
-/*    update(todo) {
-        return function(dispatch) {
-            const optimisticAction = baseActionCreators.updateStart(todo)
-            dispatch(optimisticAction)
+    update(user) {
+        return dispatch => {
+            debugger;
+            dispatch(baseActionCreators.updateStart(user));
 
-            const url = `/todos/${todo.id}`
-            const promise = axios({
-                url: url,
-                method: 'PATCH',
-                data: todo,
-            })
-
-            promise.then(function(response) {
-                // dispatch the success action
-                const returned = response.data
-                const successAction = baseActionCreators.updateSuccess(returned)
-                dispatch(successAction)
-            }, function(response) {
-                // rejection
-                // dispatch the error action
-                const errorAction = baseActionCreators.updateError(response, todo)
-                dispatch(errorAction)
-            }).catch(function(err) {
-                console.error(err.toString())
-            })
-
-            return promise
-
-        }
+            return fetch(`${API_URL}/v1/user/edit/${user.id}`, {
+                method: 'post',
+                mode: 'cors',
+                headers: {
+                    'Authorization': 'Bearer ' + getUserToken(),
+                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                body: JSON.stringify(user)
+            }).then(checkStatus)
+                .then(parseJSON)
+                .then((result) => {
+                    if (result.status === STATUS_SUCCESS) {
+                        dispatch(baseActionCreators.updateSuccess(result.data));
+                    } else {
+                        dispatch(baseActionCreators.updateError(result.errors, user))
+                    }
+                })
+                .catch((error) => {
+                    dispatch(baseActionCreators.updateError(error, user));
+                    console.error(error.toString())
+                });
+        };
     },
 
-    delete(todo) {
-        return function(dispatch) {
-            const optimisticAction = baseActionCreators.deleteStart(todo)
-            dispatch(optimisticAction)
+    delete(user) {
+        return dispatch => {
+            dispatch(baseActionCreators.deleteStart(user));
 
-            const url = `/todos/${todo.id}`
-            const promise = axios({
-                url: url,
-                method: 'DELETE',
-            })
-
-            promise.then(function(response) {
-                // dispatch the success action
-                const successAction = baseActionCreators.deleteSuccess(todo)
-                dispatch(successAction)
-            }, function(response) {
-                // rejection
-                // dispatch the error action
-                const errorAction = baseActionCreators.deleteError(response, todo)
-                dispatch(errorAction)
-            }).catch(function(err) {
-                console.error(err.toString())
-            })
-
-            return promise
-        }
-    },*/
-
+            return fetch(`${API_URL}/v1/user/${user.id}`, {
+                method: 'delete',
+                mode: 'cors',
+                headers: {
+                    'Authorization': 'Bearer ' + getUserToken(),
+                    //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                //body: JSON.stringify(user)
+            }).then(checkStatus)
+                .then(parseJSON)
+                .then((result) => {
+                    if (result.status === STATUS_SUCCESS) {
+                        dispatch(baseActionCreators.deleteSuccess(user));
+                    } else {
+                        debugger;
+                        dispatch(baseActionCreators.deleteError(result, user));
+                    }
+                })
+                .catch((error) => {
+                    dispatch(baseActionCreators.deleteError(error, user));
+                    console.error(error.toString());
+                });
+        };
+    }
 };
 
 actionCreators = _.extend(actionCreators, baseActionCreators);

@@ -1,81 +1,85 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import userActions from '../../actions/user'
+import {setActiveUser} from '../../actions/userPage'
 import _ from 'lodash';
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell} from '../../components/table/TableCells'
-import {UserForm} from '../../components/user/UserForm'
+import {TextCell, LinkCell, ButtonCell} from '../../components/table/TableCells'
 
 class UsersTable extends Component {
 
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.resetForm = this.resetForm.bind(this);
+        //this.eventDeleteUser = this.eventDeleteUser.bind(this);
     }
 
     componentDidMount() {
+        console.log('usersTable componentDidMount');
         const {dispatch} = this.props;
         dispatch(userActions.fetch());
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('usersTable componentWillReceiveProps');
         const { dispatch } = nextProps;
         //dispatch(userActions.fetch());
     }
 
-    handleSubmit(event) {
-        //todo
+    eventDeleteUser(user) {
+        const {dispatch} = this.props;
+        dispatch(userActions.delete(user));
     }
 
-    resetForm(event) {
-        //todo
+    eventEditUser(user) {
+        const {dispatch} = this.props;
+        debugger;
+        dispatch(setActiveUser(user));
     }
 
     render() {
-        debugger;
+        console.log('usersTable render');
         const {users} = this.props;
-        /*const usersData = _.map(users, function (user) {
-            return <li key={user.id}>{user.user}</li>;
-        });*/
-
         return (
             <div className="container-fluid">
 
                 {users.length === 0 &&
-                    <div className="alert alert-warning">Oops, nothing to show.</div>
+                <div className="alert alert-warning">Oops, nothing to show.</div>
                 }
                 {users.length > 0 &&
-                    <Table
-                        rowsCount={users.length}
-                        rowHeight={50}
-                        headerHeight={50}
-                        width={1000}
-                        height={500}>
-                        <Column
-                            header={<Cell>Name</Cell>}
-                            cell={<TextCell data={users} field="user" />}
-                            width={300}
-                        />
-                        <Column
-                            header={<Cell>Email</Cell>}
-                            cell={<LinkCell data={users} field="email" />}
-                            width={300}
-                        />
-                        <Column
-                            header={<Cell>Role</Cell>}
-                            cell={<LinkCell data={users} field="role" />}
-                            width={300}
-                        />
-                    </Table>
+                <Table
+                    rowsCount={users.length}
+                    rowHeight={50}
+                    headerHeight={50}
+                    width={900}
+                    height={500}>
+                    <Column
+                        header={<Cell>Name</Cell>}
+                        cell={<TextCell data={users} field="username" />}
+                        width={200}
+                    />
+                    <Column
+                        header={<Cell>Email</Cell>}
+                        cell={<LinkCell data={users} field="email" />}
+                        width={200}
+                    />
+                    <Column
+                        header={<Cell>Role</Cell>}
+                        cell={<LinkCell data={users} field="role" />}
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Action</Cell>}
+                        cell={
+                        <ButtonCell
+                             data={users}
+                             eventDeleteUser={this.eventDeleteUser.bind(this)}
+                             eventEditUser={this.eventEditUser.bind(this)}
+                             field="id"
+                        />}
+                        width={200}
+                    />
+                </Table>
                 }
-
-               /* <UserForm
-                    fields={users}
-                    submitting={false}
-                    handleSubmit={this.handleSubmit()}
-                    resetForm={this.resetForm()}
-                />*/
             </div>
         );
     }

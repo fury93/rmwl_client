@@ -6,7 +6,7 @@ import auth from '../reducers/auth';
 import { selectedUsersPage, usersByPage } from '../reducers/users';
 import { selectedReposPage, reposByPage, repoTableSize } from '../reducers/repos';
 import reduxCrud from 'redux-crud';
-import userReducer from '../reducers/user';
+import {userReducer, usersPage} from '../reducers/user';
 import {reducer as formReducer} from 'redux-form';
 
 const logger = createLogger();
@@ -19,6 +19,7 @@ const rootReducer = combineReducers(
         reposByPage,
         repoTableSize,
         users: userReducer,
+        usersPage,
         form: formReducer,
 
         routing: routerReducer

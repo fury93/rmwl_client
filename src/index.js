@@ -12,7 +12,7 @@ import Login from './containers/login/Login';
 import RestrictPage from './containers/misc/RestrictPage';
 import Home from './containers/home/Home';
 import UsersPage from './containers/user/UsersPage';
-import UsersTable from './containers/user/UsersTable';
+import Users from './components/user/Users';
 import ReposPage from './containers/repo/ReposPage';
 import NotFound from './containers/misc/NotFound';
 
@@ -29,7 +29,7 @@ ReactDOM.render(
                 <Route component={RestrictPage}>
                     <IndexRoute component={Home}/>
                     <Route path="/users" component={UsersPage}/>
-                    <Route path="/users-list" component={UsersTable}/>
+                    <Route path="/users-list" component={Users}/>
                     <Route path="/repos" component={ReposPage}/>
                 </Route>
 
