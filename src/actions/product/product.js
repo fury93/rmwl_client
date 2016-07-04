@@ -2,7 +2,7 @@ import _ from 'lodash';
 import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
 import 'isomorphic-fetch';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
+import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 
 import {
     ID_TOKEN,
@@ -10,28 +10,29 @@ import {
     parseJSON,
     getUserToken,
     parseError
-} from '../utils/utils';
+} from '../../utils/utils';
 
-const baseActionCreators = reduxCrud.actionCreatorsFor('users');
+const baseActionCreators = reduxCrud.actionCreatorsFor('products');
 
-let actionCreators = {
+//Duplicate code, need to fix it (similar code for all crud actions)
+let actionProducts = {
 
     fetch() {
         return dispatch => {
             dispatch(baseActionCreators.fetchStart());
 
-            return fetch(`${API_URL}/v1/user`, {
+            return fetch(`${API_URL}/v1/product`, {
                 method: 'get',
                 mode: 'cors',
                 headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    'Authorization': 'Bearer ' + getUserToken()
                 }
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
+                    debugger;
                     if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.fetchSuccess(result.data.users));
+                        dispatch(baseActionCreators.fetchSuccess(result.data.products));
                     } else {
                         dispatch(baseActionCreators.fetchError({'message': result.errors}))
                     }
@@ -43,23 +44,24 @@ let actionCreators = {
         };
     },
 
-    create(user) {
+    create(product) {
         return dispatch => {
             const cid = cuid();
-            user = Object.assign({}, user, {id: cid});
-            dispatch(baseActionCreators.createStart(user));
+            product = Object.assign({}, product, {id: cid});
+            dispatch(baseActionCreators.createStart(product));
 
-            return fetch(`${API_URL}/v1/user`, {
+            return fetch(`${API_URL}/v1/product`, {
                 method: 'post',
                 mode: 'cors',
                 headers: {
                     'Authorization': 'Bearer ' + getUserToken(),
                     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(product)
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
+                    debugger;
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.createSuccess(result.data, cid));
                     } else {
@@ -67,24 +69,25 @@ let actionCreators = {
                     }
                 })
                 .catch((error) => {
-                    dispatch(baseActionCreators.createError(error, user));
+                    debugger;
+                    dispatch(baseActionCreators.createError(error, product));
                     return Promise.reject(error);
                 });
         };
     },
 
-    update(user) {
+    update(product) {
         return dispatch => {
-            dispatch(baseActionCreators.updateStart(user));
+            dispatch(baseActionCreators.updateStart(product));
 
-            return fetch(`${API_URL}/v1/user/edit/${user.id}`, {
+            return fetch(`${API_URL}/v1/product/edit/${product.id}`, {
                 method: 'post',
                 mode: 'cors',
                 headers: {
                     'Authorization': 'Bearer ' + getUserToken(),
                     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(product)
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
@@ -95,41 +98,39 @@ let actionCreators = {
                     }
                 })
                 .catch((error) => {
-                    dispatch(baseActionCreators.updateError(error, user));
+                    dispatch(baseActionCreators.updateError(error, product));
                     return Promise.reject(error);
                 });
         };
     },
 
-    delete(user) {
+    delete(product) {
         return dispatch => {
-            dispatch(baseActionCreators.deleteStart(user));
+            dispatch(baseActionCreators.deleteStart(product));
 
-            return fetch(`${API_URL}/v1/user/${user.id}`, {
+            return fetch(`${API_URL}/v1/product/${product.id}`, {
                 method: 'delete',
                 mode: 'cors',
                 headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                //body: JSON.stringify(user)
+                    'Authorization': 'Bearer ' + getUserToken()
+                }
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
                     if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.deleteSuccess(user));
+                        dispatch(baseActionCreators.deleteSuccess(product));
                     } else {
-                        dispatch(baseActionCreators.deleteError(result, user));
+                        dispatch(baseActionCreators.deleteError(result, product));
                     }
                 })
                 .catch((error) => {
-                    dispatch(baseActionCreators.deleteError(error, user));
+                    dispatch(baseActionCreators.deleteError(error, product));
                     console.log(error.message);
                 });
         };
     }
 };
 
-actionCreators = _.extend(actionCreators, baseActionCreators);
+actionProducts = _.extend(actionProducts, baseActionCreators);
 
-export default actionCreators
+export default actionProducts

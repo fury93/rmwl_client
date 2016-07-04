@@ -26,14 +26,14 @@ export class LinkCell extends Component {
 
 export class ButtonCell extends Component {
     render() {
-        const {rowIndex, field, data, eventDeleteUser, eventEditUser,  ...props} = this.props;
+        const {rowIndex, field, data, eventDelete, eventEdit,  ...props} = this.props;
         const id = data[rowIndex][field];
         return (
             <Cell {...props}>
-                <button type="button" className="btn btn-danger" onClick={() =>eventDeleteUser(data[rowIndex])}>
+                <button type="button" className="btn btn-danger" onClick={() =>eventDelete(data[rowIndex])}>
                     Delete
                 </button>
-                <button type="button" className="btn btn-primary" onClick={() =>eventEditUser(data[rowIndex])}>
+                <button type="button" className="btn btn-primary" onClick={() =>eventEdit(data[rowIndex])}>
                     Edit
                 </button>
             </Cell>

@@ -15,6 +15,7 @@ export default class Header extends Component {
         const isUsersPage = pathname.indexOf('users') > -1;
         const isReposPage = pathname.indexOf('repos') > -1;
         const isUserList = pathname.indexOf('users-list') > -1;
+        const isProductsPage = pathname.indexOf('products') > -1;
 
         return (
             !isLoginPage &&
@@ -40,6 +41,10 @@ export default class Header extends Component {
                                 <li title="Users List"
                                     className={isUserList ? 'nav-item active' : 'nav-item'}>
                                     <Link className="nav-link" to="/users-list">Users List</Link>
+                                </li>
+                                <li title="Products"
+                                    className={isProductsPage ? 'nav-item active' : 'nav-item'}>
+                                    <Link className="nav-link" to="/products">Products</Link>
                                 </li>
                              </ul>
                             <ul className="nav navbar-nav navbar-right">

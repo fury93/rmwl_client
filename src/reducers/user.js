@@ -2,7 +2,8 @@ import SI from 'seamless-immutable'
 import reduxCrud from 'redux-crud'
 import {
     USERS_SELECTED_SET,
-    USERS_SELECTED_CLEAR
+    USERS_SELECTED_CLEAR,
+    RESIZE_USER_TABLE
 } from '../actions/userPage';
 
 const baseReducers = reduxCrud.reducersFor('users', { store: reduxCrud.STORE_MUTABLE });
@@ -14,7 +15,11 @@ const defaultUserPageStore = {
         active: true,
         id: false
     },
-    isNew: true
+    isNew: true,
+    tableSize: {
+        width: 900,
+        height: 700
+    }
 };
 
 export function userReducer(state=[], action) {
@@ -33,6 +38,10 @@ export function usersPage(state = defaultUserPageStore, action) {
         case USERS_SELECTED_CLEAR:
             return Object.assign({}, state, {
                 selectedUser: {}
+            });
+        case RESIZE_USER_TABLE:
+            return Object.assign({}, state, {
+                tableSize: {width: action.width, height: action.height}
             });
         default:
             return state;

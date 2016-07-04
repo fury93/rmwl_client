@@ -13,6 +13,7 @@ import RestrictPage from './containers/misc/RestrictPage';
 import Home from './containers/home/Home';
 import UsersPage from './containers/user/UsersPage';
 import Users from './components/user/Users';
+import Products from './components/product/Products';
 import ReposPage from './containers/repo/ReposPage';
 import NotFound from './containers/misc/NotFound';
 
@@ -30,6 +31,7 @@ ReactDOM.render(
                     <IndexRoute component={Home}/>
                     <Route path="/users" component={UsersPage}/>
                     <Route path="/users-list" component={Users}/>
+                    <Route path="/products" component={Products}/>
                     <Route path="/repos" component={ReposPage}/>
                 </Route>
 

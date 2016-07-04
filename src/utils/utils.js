@@ -1,7 +1,13 @@
 import jwt_decode from 'jwt-decode';
 
+export const STATUS_401 = 401;
+
 export function checkStatus(response) {
     if (!response.ok) {   // (response.status < 200 || response.status > 300)
+        if(response.status === STATUS_401) {
+            //todo logout
+        }
+
         const error = new Error(response.statusText);
         error.response = response;
         throw error;
@@ -75,4 +81,3 @@ export function getUserToken() {
 
     return null;
 }
-

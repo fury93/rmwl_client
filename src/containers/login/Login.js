@@ -34,7 +34,7 @@ class Login extends Component {
     componentWillMount(props) {
         console.log('componentWillMount');
         if(this.props.user) {
-            this.context.router.replace('/');
+            //this.context.router.replace('/');
         }
     }
 
