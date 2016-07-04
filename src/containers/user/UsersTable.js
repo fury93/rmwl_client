@@ -32,7 +32,6 @@ class UsersTable extends Component {
 
     eventEditUser(user) {
         const {dispatch} = this.props;
-        debugger;
         dispatch(setActiveUser(user));
     }
 
@@ -55,16 +54,16 @@ class UsersTable extends Component {
                     <Column
                         header={<Cell>Name</Cell>}
                         cell={<TextCell data={users} field="username" />}
-                        width={200}
+                        width={300}
                     />
                     <Column
                         header={<Cell>Email</Cell>}
-                        cell={<LinkCell data={users} field="email" />}
-                        width={200}
+                        cell={<TextCell data={users} field="email" />}
+                        width={300}
                     />
                     <Column
                         header={<Cell>Role</Cell>}
-                        cell={<LinkCell data={users} field="role" />}
+                        cell={<TextCell data={users} field="role" />}
                         width={100}
                     />
                     <Column

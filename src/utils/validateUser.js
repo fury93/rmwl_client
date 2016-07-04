@@ -1,6 +1,5 @@
 export default function validateUser(values, props) {
     const errors = {};
-    debugger;
     if (!values.username) {
         errors.username = 'Required'
     } else if (values.username.length > 15) {

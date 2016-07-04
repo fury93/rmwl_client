@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
+import classNames from 'classnames';
 export const fields = ['username', 'email', 'role', 'active', 'id'];
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -9,6 +10,21 @@ import validate from '../../utils/validateUser'
 
 import { initialize } from 'redux-form';
 
+/*const submit = (values, dispatch) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (![ 'john', 'paul', 'george', 'ringo' ].includes(values.username)) {
+                reject({ username: 'User does not exist', _error: 'Login failed!' })
+            } else if (values.password !== 'redux-form') {
+                reject({ password: 'Wrong password', _error: 'Login failed!' })
+            } else {
+                dispatch(showResults(values))
+                resolve()
+            }
+        }, 1000) // simulate server latency
+    })
+}*/
+
 class UserForm extends Component {
     constructor(props) {
         super(props);
@@ -17,13 +33,12 @@ class UserForm extends Component {
     }
 
     handleSubmit(data) {
-        debugger;
         const {dispatch} = this.props;
+
         if(data.id) {
-            debugger;
-            dispatch(userActions.update(data));
+            return dispatch(userActions.update(data));
         } else {
-            dispatch(userActions.create(data));
+            return dispatch(userActions.create(data));
         }
     }
 
@@ -45,26 +60,25 @@ class UserForm extends Component {
         const {
             fields: { username, email, role, active, id }, clearForm, handleSubmit} = this.props;
         const submitting = false;
-        debugger;
         return (
 
             <form role="form" onSubmit={handleSubmit(this.handleSubmit)}>
                 <input type="hidden" {...id}/>
-                <div className="form-group has-danger">
+                <div className={classNames('form-group', {'has-error': username.error})}>
                     <label className="control-label">Name</label>
                     <div>
                         <input type="text" className="form-control" placeholder="Name" {...username}/>
                     </div>
                     {username.touched && username.error && <div className="help-block">{username.error}</div>}
                 </div>
-                <div className="form-group has-danger">
+                <div className={classNames('form-group', {'has-error': email.error})}>
                     <label className="control-label">Email</label>
                     <div>
                         <input type="email" className="form-control" placeholder="Email" {...email}/>
                     </div>
                     {email.touched && email.error && <div className="help-block">{email.error}</div>}
                 </div>
-                <div className="form-group has-danger">
+                <div className={classNames('form-group', {'has-error': role.error})}>
                     <label className="control-label">Roles</label>
                     <div>
                         <select
@@ -102,7 +116,6 @@ UserForm.propTypes = {
 };
 
 /*const mapStateToProps = (state, ownProps) => {
-    debugger;
     const { users } = state;
     //todo add to state userPage block and field id with active component, if null, then use default data
 

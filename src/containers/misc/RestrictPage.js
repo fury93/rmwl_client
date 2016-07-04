@@ -2,7 +2,9 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 class RestrictPage extends Component {
+    //before rendering
     componentWillMount() {
+        console.log('componentWillMount RestrictPage');
         const { user } = this.props;
         const { router } = this.context;
 

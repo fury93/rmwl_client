@@ -2,3 +2,8 @@
 .input-group {
     margin-bottom: 10px;
 }
+
+.card-header {
+    margin-bottom: 15px;
+    text-align: center;
+}

@@ -18,17 +18,16 @@ export default class Header extends Component {
 
         return (
             !isLoginPage &&
-            <div className="pos-f-t">
-                <nav className="navbar navbar-light bg-faded navbar-fixed-top">
+            <div>
+                <nav className="navbar navbar-default navbar-fixed-top">
                     <div className="container-fluid">
-                        <button type="button" className="navbar-toggle pull-xs-left hidden-sm-up" data-toggle="collapse"
-                                data-target="#collapsingNavbar">&#9776;</button>
 
-                        <div id="collapsingNavbar" className="collapse navbar-toggleable-xs">
+                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <IndexLink to="/" className="navbar-brand">
                                 <div title="Home" className="brand"/>
                                 Home
                             </IndexLink>
+
                             <ul className="nav navbar-nav">
                                 <li title="Github Users with over 1000 Followers"
                                     className={isUsersPage ? 'nav-item active' : 'nav-item'}>
@@ -42,9 +41,8 @@ export default class Header extends Component {
                                     className={isUserList ? 'nav-item active' : 'nav-item'}>
                                     <Link className="nav-link" to="/users-list">Users List</Link>
                                 </li>
-                            </ul>
-
-                            <ul className="nav navbar-nav pull-xs-right">
+                             </ul>
+                            <ul className="nav navbar-nav navbar-right">
                                 <li className="dropdown nav-item">
                                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
                                        role="button" aria-haspopup="true" aria-expanded="false">
@@ -52,9 +50,11 @@ export default class Header extends Component {
                                         className="caret"></span>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <a className="dropdown-item" href="#"
-                                           onClick={ event => this.onLogoutClick(event)}><i
-                                            className="fa fa-sign-out header_fa"/>Log out</a>
+                                        <li>
+                                            <a className="dropdown-item" href="#" onClick={ event => this.onLogoutClick(event)}>
+                                                <i className="fa fa-sign-out header_fa"/>Log out
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>

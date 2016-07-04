@@ -65,7 +65,6 @@ export function login(username, password) {
                     dispatch(loginFailure(username, {'message': result.errors}));
                 }
             }).catch((error) => {
-                debugger;
                 loginFailure(username, parseError(error));
             });
     };

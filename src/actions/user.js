@@ -30,7 +30,6 @@ let actionCreators = {
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
-                    debugger;
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.fetchSuccess(result.data.users));
                     } else {
@@ -39,7 +38,7 @@ let actionCreators = {
                 })
                 .catch((error) => {
                     dispatch(baseActionCreators.fetchError(error));
-                    console.error(error.toString());
+                    console.error(error.message);
                 });
         };
     },
@@ -64,20 +63,18 @@ let actionCreators = {
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.createSuccess(result.data, cid));
                     } else {
-                        debugger;
-                        dispatch(baseActionCreators.createError(result.errors, user))
+                        throw result.errors;
                     }
                 })
                 .catch((error) => {
-                    dispatch(baseActionCreators.createError(error, user))
-                    console.error(error.toString())
+                    dispatch(baseActionCreators.createError(error, user));
+                    return Promise.reject(error);
                 });
         };
     },
 
     update(user) {
         return dispatch => {
-            debugger;
             dispatch(baseActionCreators.updateStart(user));
 
             return fetch(`${API_URL}/v1/user/edit/${user.id}`, {
@@ -94,12 +91,12 @@ let actionCreators = {
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.updateSuccess(result.data));
                     } else {
-                        dispatch(baseActionCreators.updateError(result.errors, user))
+                        throw result.errors;
                     }
                 })
                 .catch((error) => {
                     dispatch(baseActionCreators.updateError(error, user));
-                    console.error(error.toString())
+                    return Promise.reject(error);
                 });
         };
     },
@@ -122,13 +119,12 @@ let actionCreators = {
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.deleteSuccess(user));
                     } else {
-                        debugger;
                         dispatch(baseActionCreators.deleteError(result, user));
                     }
                 })
                 .catch((error) => {
                     dispatch(baseActionCreators.deleteError(error, user));
-                    console.error(error.toString());
+                    console.error(error.message);
                 });
         };
     }

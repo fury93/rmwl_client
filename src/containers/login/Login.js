@@ -11,7 +11,7 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        debugger;
+        console.log('componentWillReceiveProps');
         if (nextProps.user) {
             // logged in, let's show redirect if any, or show home
             try {
@@ -23,8 +23,26 @@ class Login extends Component {
         }
     }
 
+    componentDidUpdate() {
+        console.log('componentDidUpdate');
+    }
+
+    componentWillUnmount() {
+        console.log('componentWillUnmount');
+    }
+
+    componentWillMount(props) {
+        console.log('componentWillMount');
+        if(this.props.user) {
+            this.context.router.replace('/');
+        }
+    }
+
+    componentDidMount() {
+        console.log('componentDidMount');
+    }
+
     handleLogin(event) {
-        debugger;
         event.preventDefault();
         const username = this.refs.username;
         const password = this.refs.password;
@@ -34,14 +52,16 @@ class Login extends Component {
     }
 
     render() {
+        console.log('RENDER');
         const { user, loginError } = this.props;
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-md-4 col-md-offset-4">
-                        <div className="card">
+                        <div className="card login-form">
                             <div className="card-header">Please Log in</div>
                             <form className="card-block">
+
                                 <div className="input-group">
                                     <span className="input-group-addon"><i className="fa fa-user"/></span>
                                     <input type="text" ref="username" className="form-control"

@@ -19,6 +19,10 @@ class App extends Component {
         this.context.router.replace('/login');
     }
 
+    componentWillMount() {
+        console.log('componentWillMount App.js');
+    }
+
     render() {
         const { user } = this.props;
         return (
