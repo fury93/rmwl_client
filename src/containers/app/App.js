@@ -25,6 +25,7 @@ class App extends Component {
 
     render() {
         const { user } = this.props;
+
         return (
             <div className="container-fluid">
                 <Header location={this.props.location} user={user} handleLogout={() => this.handleLogout()}/>
@@ -38,7 +39,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.object,
     children: PropTypes.node.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,

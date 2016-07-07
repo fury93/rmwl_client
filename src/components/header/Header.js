@@ -51,7 +51,7 @@ export default class Header extends Component {
                                 <li className="dropdown nav-item">
                                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
                                        role="button" aria-haspopup="true" aria-expanded="false">
-                                        <span className="fa fa-user header_fa"></span>{user || 'Anonymous'}<span
+                                        <span className="fa fa-user header_fa"></span>{user.user || 'Anonymous'}<span
                                         className="caret"></span>
                                     </a>
                                     <ul className="dropdown-menu">
@@ -72,7 +72,7 @@ export default class Header extends Component {
 }
 
 Header.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.object,
     handleLogout: PropTypes.func.isRequired,
     location: React.PropTypes.object
 };

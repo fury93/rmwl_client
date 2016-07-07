@@ -15,7 +15,6 @@ const defaultUserPageStore = {
         active: true,
         id: false
     },
-    isNew: true,
     tableSize: {
         width: 900,
         height: 700

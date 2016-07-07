@@ -1,24 +1,47 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {
+    checkAuth,
+    changeAuthStatus,
+    AUTH_INIT,
+    AUTH_SUCCESS,
+    AUTH_FAILED
+} from '../../actions/auth';
 
 class RestrictPage extends Component {
-    //before rendering
+
     componentWillMount() {
         console.log('componentWillMount RestrictPage');
-        const { user } = this.props;
+        const { user, dispatch, authStatus } = this.props;
+
+        if(!authStatus) {
+            dispatch(changeAuthStatus(AUTH_INIT));
+            dispatch(checkAuth());
+        }
+    }
+
+/*    componentWillUpdate() {
+        console.log('componentWillUpdate RestrictPage');
+        const { user, dispatch, authStatus } = this.props;
+
+    }*/
+
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps RestrictPage');
+        const { user, dispatch, authStatus } = nextProps;
         const { router } = this.context;
 
-        // If this page is restricted, go to loginPage first.
-        // (But pass on this page's path in order to redirect back upon login)
-        if (!user) {
+        if(authStatus == AUTH_FAILED) {
             const path = this.props.location.pathname;
             router.push(`/login?redirect=${path}`);
         }
     }
 
     render() {
-        const { user } = this.props;
-        if (user) {
+        console.log('render RestrictPage');
+        const { user, authStatus } = this.props;
+
+        if (authStatus == AUTH_SUCCESS) {
             return this.props.children;
         }
 
@@ -27,17 +50,21 @@ class RestrictPage extends Component {
 }
 
 RestrictPage.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.object,
+    //authStatus: PropTypes.string,
     children: PropTypes.object,
-    location: PropTypes.object,
+    location: PropTypes.object
 };
 
 RestrictPage.contextTypes = {
-    router: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-    return {user: state.auth.user};
+    return {
+        user: state.auth.user,
+        authStatus: state.auth.authStatus
+    };
 }
 
 export default connect(mapStateToProps)(RestrictPage);

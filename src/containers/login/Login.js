@@ -7,11 +7,12 @@ import './login.css';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
+        //this.handleLogin = this.handleLogin.bind(this);
+        this.rememberChange = this.rememberChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps');
+        console.log('componentWillReceiveProps Login');
         if (nextProps.user) {
             // logged in, let's show redirect if any, or show home
             try {
@@ -24,35 +25,41 @@ class Login extends Component {
     }
 
     componentDidUpdate() {
-        console.log('componentDidUpdate');
+        console.log('componentDidUpdate Login');
     }
 
     componentWillUnmount() {
-        console.log('componentWillUnmount');
+        console.log('componentWillUnmount Login');
     }
 
     componentWillMount(props) {
-        console.log('componentWillMount');
+        //constructor
+        console.log('componentWillMount Login');
         if(this.props.user) {
             //this.context.router.replace('/');
         }
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
+        console.log('componentDidMount Login');
     }
 
-    handleLogin(event) {
+    //Arrow, instead bind in constructor
+    handleLogin = (event) => {
         event.preventDefault();
         const username = this.refs.username;
         const password = this.refs.password;
-        this.props.dispatch(login(username.value, password.value));
-        //username.value = '';
-        //password.value = '';
+        const rememberMe = false;//todo
+        console.log('handleLogin');
+        this.props.dispatch(login(username.value, password.value, rememberMe));
+    };
+
+    rememberChange() {
+        debugger;
+        this.props.remember = !this.props.remember;
     }
 
     render() {
-        console.log('RENDER');
         const { user, loginError } = this.props;
         return (
             <div className="container">
@@ -76,7 +83,9 @@ class Login extends Component {
 
                                 <div className="checkbox">
                                     <label>
-                                        <input type="checkbox" value="remember-me"/> Remember me
+                                        <input
+                                            type="checkbox"
+                                        /> Remember me
                                     </label>
                                 </div>
 
@@ -87,8 +96,8 @@ class Login extends Component {
                                     </div>
                                 }
 
-                                <button className="btn btn-primary btn-block" onClick={this.handleLogin}><i
-                                    className="fa fa-sign-in"/>{' '}Log in
+                                <button className="btn btn-primary btn-block" onClick={this.handleLogin}>
+                                    <i className="fa fa-sign-in"/>{' '}Log in
                                 </button>
                             </form>
                         </div>
@@ -105,10 +114,14 @@ Login.contextTypes = {
 };
 
 Login.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.object,
     loginError: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object,
+};
+
+Login.defaultProps = {
+  remember: true
 };
 
 function mapStateToProps(state) {

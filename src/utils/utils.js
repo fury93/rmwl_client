@@ -1,7 +1,7 @@
-import jwt_decode from 'jwt-decode';
-
 export const STATUS_401 = 401;
+export const ID_TOKEN = 'token';
 
+//Check response status, if status 401, then clear storage and redirect to login page
 export function checkStatus(response) {
     if (!response.ok) {   // (response.status < 200 || response.status > 300)
         if(response.status === STATUS_401) {
@@ -35,8 +35,8 @@ export function parseError(error) {
     return error;
 }
 
-export const ID_TOKEN = 'token';
 
+//Methods to work with local storage and token
 export function setIdToken(idToken) {
     localStorage.setItem(ID_TOKEN, idToken);
 }
@@ -45,39 +45,12 @@ export function removeIdToken() {
     localStorage.removeItem(ID_TOKEN);
 }
 
-/*export function decodeUserProfile(idToken) {
- try {
- return jwt_decode(idToken);
- } catch (err) {
- return null;
- }
- }*/
-
-export function loadUserProfile() {
-    try {
-        const localUserData = localStorage.getItem(ID_TOKEN);
-        const userProfile = JSON.parse(localUserData);
-        //todo add logic
-        /*const now = new Date().getTime() / 1000;   // Date().getTime() returns milliseconds.
-         // So divide by 1000 to get seconds
-         if (now > userProfile.exp) {
-         // user profile has expired.
-         return {};
-         }*/
-        return userProfile;
-    } catch (err) {
-        return null;
-    }
-}
-
 export function getUserToken() {
     var store = localStorage.getItem(ID_TOKEN);
+
     if (store) {
-        var userData = JSON.parse(store);
-        if (userData['token']) {
-            return userData['token'];
-        }
+        var token = JSON.parse(store);
     }
 
-    return null;
+    return token || null;
 }

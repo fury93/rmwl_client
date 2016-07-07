@@ -8,8 +8,6 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import webpackConfig from './webpack.config';
 
-import jwt from 'jsonwebtoken';
-
 const isProduction = process.env.NODE_ENV === 'production';
 const isDeveloping = !isProduction;
 

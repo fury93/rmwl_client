@@ -27,8 +27,8 @@ ReactDOM.render(
         <Router history={browserHistory}>
             <Route path="/" component={App}>
                 <Route path="/login" component={Login}/>
+                <IndexRoute component={Home}/>
                 <Route component={RestrictPage}>
-                    <IndexRoute component={Home}/>
                     <Route path="/users" component={UsersPage}/>
                     <Route path="/users-list" component={Users}/>
                     <Route path="/products" component={Products}/>

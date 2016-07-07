@@ -1,4 +1,5 @@
 'use strict';
+
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -6,39 +7,42 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
+    AUTH_STATUS,
+    AUTH_INIT,
+    AUTH_SUCCESS,
+    AUTH_FAILED
 } from '../actions/auth';
 
-import { loadUserProfile } from '../utils/utils';
-
 const initialState = {
-    user: null,
-    password: null,
-    userRole: null,
+    user: {
+        user: null
+    },
+    roles: null,
     loggingIn: false,
     loggingOut: false,
-    loginError: null
+    loginError: null,
+    authStatus: null
 };
 
-function initializeState() {
-    const userProfile = loadUserProfile();
-    return Object.assign({}, initialState, userProfile);
-}
-
-export default function auth(state = initializeState(), action = {}) {
+export default function auth(state = initialState, action = {}) {
     switch (action.type) {
         case LOGIN_REQUEST:
-            return Object.assign({}, state, {loggingIn: true});
+            return Object.assign({}, state, {loggingIn: true, authStatus: AUTH_INIT});
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
-                loggingIn: false, user: action.user, role: action.role
+                loggingIn: false,
+                user: action.user,
+                roles: action.roles,
+                authStatus: AUTH_SUCCESS
             });
         case LOGIN_FAILURE:
             return {
                 ...state,
                 loggingIn: false,
                 user: null,
-                role: null,
-                loginError: action.error
+                roles: null,
+                loginError: action.error,
+                authStatus: AUTH_FAILED
             };
         case LOGOUT_REQUEST:
             return {
@@ -46,19 +50,15 @@ export default function auth(state = initializeState(), action = {}) {
                 loggingOut: true
             };
         case LOGOUT_SUCCESS:
-            return {
-                ...state,
-                loggingOut: false,
-                user: null,
-                userRole: null,
-                loginError: null
-            };
+            return Object.assign({}, initialState);
         case LOGOUT_FAILURE:
             return {
                 ...state,
                 loggingOut: false,
                 logoutError: action.error
             };
+        case AUTH_STATUS:
+            return Object.assign({}, state, {authStatus: action.status});
         default:
             return state;
     }
