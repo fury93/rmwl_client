@@ -19,10 +19,6 @@ class App extends Component {
         this.context.router.replace('/login');
     }
 
-    componentWillMount() {
-        console.log('componentWillMount App.js');
-    }
-
     render() {
         const { user } = this.props;
 
@@ -42,12 +38,12 @@ App.propTypes = {
     user: PropTypes.object,
     children: PropTypes.node.isRequired,
     dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
 };
 
 App.contextTypes = {
     router: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

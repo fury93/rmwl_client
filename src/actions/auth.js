@@ -20,16 +20,43 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 export const AUTH_STATUS = 'AUTH_STATUS';
-
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILED = 'AUTH_FAILED';
 export const AUTH_INIT = 'AUTH_INIT';
+
+export const RECOVERY_PASS_STATUS = 'RECOVERY_PASS_STATUS';
+export const RECOVERY_PASS_INIT = 'RECOVERY_PASS_INIT';
+export const RECOVERY_PASS_SUCCESS = 'RECOVERY_PASS_SUCCESS';
+export const RECOVERY_PASS_FAILURE = 'RECOVERY_PASS_FAILURE';
+
+export const CHANGE_PASS_STATUS = 'CHANGE_PASS_STATUS';
+export const CHANGE_PASS_INIT = 'CHANGE_PASS_INIT';
+export const CHANGE_PASS_SUCCESS = 'CHANGE_PASS_SUCCESS';
+export const CHANGE_PASS_FAILURE = 'CHANGE_PASS_FAILURE';
 
 //Auth
 export function changeAuthStatus(status) {
     return {
         type: AUTH_STATUS,
         status
+    };
+}
+
+//Recovery password
+export function changeRecoveryPassStatus(status, msg = null) {
+    return {
+        type: RECOVERY_PASS_STATUS,
+        status,
+        msg
+    };
+}
+
+//Change password
+export function changePasswordStatus(status, msg = null) {
+    return {
+        type: CHANGE_PASS_STATUS,
+        status,
+        msg
     };
 }
 
@@ -134,7 +161,6 @@ export function logout(user) {
 
 export function checkAuth() {
     return dispatch => {
-        console.log('dispatch');
         const token = getUserToken();
         if(!token) {
             return  dispatch(changeAuthStatus(AUTH_FAILED));
@@ -160,6 +186,57 @@ export function checkAuth() {
                 }
             }).catch((error) => {
                 dispatch(changeAuthStatus(AUTH_FAILED));
+            });
+    };
+}
+
+export function recoveryPassword(email) {
+    return dispatch => {
+        dispatch(changeRecoveryPassStatus(RECOVERY_PASS_INIT));
+        debugger;
+        return fetch(`${API_URL}/v1/user/reset-password`, {
+            method: 'post',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: JSON.stringify({email})
+        }).then(checkStatus)
+            .then(parseJSON)
+            .then((result) => {
+                if (result.status === STATUS_SUCCESS) {
+                    dispatch(changeRecoveryPassStatus(RECOVERY_PASS_SUCCESS, result.data));
+                } else {
+                    throw result.errors;
+                }
+            }).catch((error) => {
+                debugger;
+                dispatch(changeRecoveryPassStatus(RECOVERY_PASS_FAILURE, error));
+            });
+    };
+}
+
+export function changeUserPassword(password, resetToken) {
+    return dispatch => {
+        dispatch(changePasswordStatus(CHANGE_PASS_INIT));
+        debugger;
+        return fetch(`${API_URL}/v1/user/change-password`, {
+            method: 'post',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: JSON.stringify({password, resetToken})
+        }).then(checkStatus)
+            .then(parseJSON)
+            .then((result) => {
+                debugger;
+                if (result.status === STATUS_SUCCESS) {
+                    dispatch(changePasswordStatus(CHANGE_PASS_SUCCESS, result.data));
+                } else {
+                    throw result.errors;
+                }
+            }).catch((error) => {
+                debugger;
+                dispatch(changePasswordStatus(CHANGE_PASS_FAILURE, error));
             });
     };
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
+import { Router, Route, Link, browserHistory } from 'react-router'
 
 import './login.css';
 
@@ -24,26 +25,6 @@ class Login extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('componentDidUpdate Login');
-    }
-
-    componentWillUnmount() {
-        console.log('componentWillUnmount Login');
-    }
-
-    componentWillMount(props) {
-        //constructor
-        console.log('componentWillMount Login');
-        if(this.props.user) {
-            //this.context.router.replace('/');
-        }
-    }
-
-    componentDidMount() {
-        console.log('componentDidMount Login');
-    }
-
     //Arrow, instead bind in constructor
     handleLogin = (event) => {
         event.preventDefault();
@@ -65,41 +46,60 @@ class Login extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-4 col-md-offset-4">
-                        <div className="card login-form">
-                            <div className="card-header">Please Log in</div>
-                            <form className="card-block">
+                        <div className="panel panel-default">
+                            <div className="panel-body">
+                                <h2 className="text-center">Please Log in</h2>
+                                <div className="panel-body">
+                                    <form className="form">
 
-                                <div className="input-group">
-                                    <span className="input-group-addon"><i className="fa fa-user"/></span>
-                                    <input type="text" ref="username" className="form-control"
-                                           placeholder="Username (hint: demo)" required autoFocus/>
+                                        <div className="form-group">
+                                            <div className="input-group">
+                                            <span className="input-group-addon">
+                                                <i className="glyphicon glyphicon-user"/>
+                                            </span>
+                                                <input type="text" ref="username" className="form-control"
+                                                       placeholder="Username (hint: demo)" required autoFocus/>
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <div className="input-group">
+                                            <span className="input-group-addon">
+                                                <i className="glyphicon glyphicon-envelope"/>
+                                            </span>
+                                                <input type="password" ref="password" className="form-control"
+                                                       placeholder="Password (hint: demo)" required/>
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <div className="checkbox">
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                    /> Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        {
+                                            !user && loginError &&
+                                            <div className="alert alert-danger">
+                                                {loginError.message}.
+                                            </div>
+                                        }
+                                        <div className="form-group">
+                                            <button className="btn btn-primary btn-block" onClick={this.handleLogin}>
+                                                <i className="fa fa-sign-in"/>{' '}Log in
+                                            </button>
+                                        </div>
+
+                                        <div className="form-group text-center">
+                                            <Link to={`/recovery-password`}>Forgot password</Link>
+                                        </div>
+                                    </form>
                                 </div>
-
-                                <div className="input-group">
-                                    <span className="input-group-addon"><i className="fa fa-lock"/></span>
-                                    <input type="password" ref="password" className="form-control"
-                                           placeholder="Password (hint: demo)" required/>
-                                </div>
-
-                                <div className="checkbox">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                        /> Remember me
-                                    </label>
-                                </div>
-
-                                {
-                                    !user && loginError &&
-                                    <div className="alert alert-danger">
-                                        {loginError.message}.
-                                    </div>
-                                }
-
-                                <button className="btn btn-primary btn-block" onClick={this.handleLogin}>
-                                    <i className="fa fa-sign-in"/>{' '}Log in
-                                </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,14 +110,14 @@ class Login extends Component {
 
 Login.contextTypes = {
     router: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
 };
 
 Login.propTypes = {
     user: PropTypes.object,
     loginError: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object,
+    location: PropTypes.object
 };
 
 Login.defaultProps = {

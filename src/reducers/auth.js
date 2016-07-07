@@ -1,5 +1,5 @@
 'use strict';
-
+//import * as auth from '../actions/auth';
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -10,7 +10,15 @@ import {
     AUTH_STATUS,
     AUTH_INIT,
     AUTH_SUCCESS,
-    AUTH_FAILED
+    AUTH_FAILED,
+    RECOVERY_PASS_STATUS,
+    RECOVERY_PASS_INIT,
+    RECOVERY_PASS_SUCCESS,
+    RECOVERY_PASS_FAILURE,
+    CHANGE_PASS_STATUS,
+    CHANGE_PASS_INIT,
+    CHANGE_PASS_SUCCESS,
+    CHANGE_PASS_FAILURE
 } from '../actions/auth';
 
 const initialState = {
@@ -21,7 +29,15 @@ const initialState = {
     loggingIn: false,
     loggingOut: false,
     loginError: null,
-    authStatus: null
+    authStatus: null,
+    recoveryPassword: {
+        status: null,
+        msg: null
+    },
+    changePassword: {
+        status: null,
+        msg: null
+    }
 };
 
 export default function auth(state = initialState, action = {}) {
@@ -59,6 +75,20 @@ export default function auth(state = initialState, action = {}) {
             };
         case AUTH_STATUS:
             return Object.assign({}, state, {authStatus: action.status});
+        case RECOVERY_PASS_STATUS:
+            return Object.assign({}, state, {
+                recoveryPassword: {
+                    status: action.status,
+                    msg: action.msg
+                }
+            });
+        case CHANGE_PASS_STATUS:
+            return Object.assign({}, state, {
+                changePassword: {
+                    status: action.status,
+                    msg: action.msg
+                }
+            });
         default:
             return state;
     }
