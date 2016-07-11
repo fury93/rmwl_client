@@ -7,23 +7,7 @@ import 'react-select/dist/react-select.css';
 import userActions from '../../actions/user';
 import {clearActiveUser} from '../../actions/userPage';
 import validate from '../../utils/validateUser'
-
 import { initialize } from 'redux-form';
-
-/*const submit = (values, dispatch) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (![ 'john', 'paul', 'george', 'ringo' ].includes(values.username)) {
-                reject({ username: 'User does not exist', _error: 'Login failed!' })
-            } else if (values.password !== 'redux-form') {
-                reject({ password: 'Wrong password', _error: 'Login failed!' })
-            } else {
-                dispatch(showResults(values))
-                resolve()
-            }
-        }, 1000) // simulate server latency
-    })
-}*/
 
 class UserForm extends Component {
     constructor(props) {
@@ -45,14 +29,6 @@ class UserForm extends Component {
     resetForm(data) {
         console.log('Reset form!', data);
         this.props.dispatch(initialize('user', {}));
-    }
-
-    componentDidMount() {
-        console.log('userForm componentDidMount');
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log('userForm componentWillReceiveProps');
     }
 
     render() {

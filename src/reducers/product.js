@@ -5,16 +5,16 @@ import {
     PRODUCT_SELECTED_SET
 } from '../actions/product/productPage';
 
-const baseReducers = reduxCrud.reducersFor('products', { store: reduxCrud.STORE_MUTABLE });
+const baseReducers = reduxCrud.reducersFor('products', {store: reduxCrud.STORE_MUTABLE});
 const defaultProductPageStore = {
-    selectedProduct:{
-        name: 'Test product1',
-        expiration_date: '1467918943',
+    selectedProduct: {
+        name: '',
+        expiration_date: '',
         id: false
     }
 };
 
-export function productReducer(state=[], action) {
+export function productReducer(state = [], action) {
     switch (action.type) {
         default:
             return baseReducers(state, action)

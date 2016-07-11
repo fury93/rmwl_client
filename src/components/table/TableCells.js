@@ -24,7 +24,7 @@ export class LinkCell extends Component {
     }
 }
 
-export class ButtonCell extends Component {
+export class ActionsCell extends Component {
     render() {
         const {rowIndex, field, data, eventDelete, eventEdit,  ...props} = this.props;
         const id = data[rowIndex][field];

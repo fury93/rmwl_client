@@ -1,25 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Router, Route, Link, browserHistory } from 'react-router'
 import {
     recoveryPassword,
     changeRecoveryPassStatus,
     RECOVERY_PASS_FAILURE,
     RECOVERY_PASS_SUCCESS
 } from '../../actions/auth';
-import { Router, Route, Link, browserHistory } from 'react-router'
 
 class RecoveryPassword extends Component {
-
-/*    componentWillReceiveProps(nextProps) {
-        const {recoveryPassword} = nextProps;
-        if (recoveryPassword && recoveryPassword.status === RECOVERY_PASS_SUCCESS) {
-            this.context.router.replace('/');
-         }
-    }*/
 
     sendEmail = (event) => {
         event.preventDefault();
         const email = this.refs.email.value;
+
         if (email) {
             this.props.dispatch(recoveryPassword(email));
         } else {
@@ -61,7 +55,7 @@ class RecoveryPassword extends Component {
 
                                                 {
                                                     recoveryPassword.msg &&
-                                                    recoveryPassword.status === RECOVERY_PASS_SUCCESS &&
+                                                    recoveryPassword.status === RECOVERY_PASS_FAILURE &&
                                                     <div className="alert alert-danger">
                                                         {recoveryPassword.msg}
                                                     </div>

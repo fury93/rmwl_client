@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
-
 import { logout } from '../../actions/auth';
 
 import './app.css';
@@ -49,7 +47,7 @@ App.contextTypes = {
 const mapStateToProps = (state) => {
     const { auth } = state;
     return {
-        user: auth ? auth.user : null,
+        user: auth ? auth.user : null
     };
 };
 

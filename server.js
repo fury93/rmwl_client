@@ -16,40 +16,40 @@ const app = express();
 
 // Webpack dev server
 if (isDeveloping) {
-  const WEBPACK_PORT = 3001;
-  const compiler = webpack(webpackConfig);
-  app.use(webpackMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: false,
-      modules: false
-    }
-  }));
+    const WEBPACK_PORT = 3001;
+    const compiler = webpack(webpackConfig);
+    app.use(webpackMiddleware(compiler, {
+        publicPath: webpackConfig.output.publicPath,
+        stats: {
+            colors: true,
+            hash: false,
+            timings: true,
+            chunks: false,
+            chunkModules: false,
+            modules: false
+        }
+    }));
 
-  app.use(webpackHotMiddleware(compiler));
-  app.listen(WEBPACK_PORT, 'localhost', function (err, result) {
-    if (err) {
-      console.log(err);
-    }
+    app.use(webpackHotMiddleware(compiler));
+    app.listen(WEBPACK_PORT, 'localhost', function (err, result) {
+        if (err) {
+            console.log(err);
+        }
 
-    console.log('WebpackDevServer listening at localhost:'+WEBPACK_PORT);
-  });
+        console.log('WebpackDevServer listening at localhost:' + WEBPACK_PORT);
+    });
 }
 
 //  RESTful API
 const publicPath = path.resolve(__dirname);
-app.use(bodyParser.json({ type: 'application/json' }))
+app.use(bodyParser.json({type: 'application/json'}))
 app.use(express.static(publicPath));
 
 const port = isProduction ? (process.env.PORT || 80) : 3000;
 
 // this is necessary to handle URL correctly since client uses Browser History
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, '', 'index.html'))
+app.get('*', function (request, response) {
+    response.sendFile(path.resolve(__dirname, '', 'index.html'))
 })
 
 // We need to use basic HTTP service to proxy
@@ -57,8 +57,8 @@ app.get('*', function (request, response){
 const server = http.createServer(app);
 
 server.listen(port, function (err, result) {
-  if(err){
-    console.log(err);
-  }
-  console.log('Server running on port ' + port);
+    if (err) {
+        console.log(err);
+    }
+    console.log('Server running on port ' + port);
 }); 

@@ -14,31 +14,24 @@ class RestrictPage extends Component {
         console.log('componentWillMount RestrictPage');
         const { user, dispatch, authStatus } = this.props;
 
-        if(!authStatus) {
+        if (!authStatus) {
             dispatch(changeAuthStatus(AUTH_INIT));
             dispatch(checkAuth());
         }
     }
-
-/*    componentWillUpdate() {
-        console.log('componentWillUpdate RestrictPage');
-        const { user, dispatch, authStatus } = this.props;
-
-    }*/
 
     componentWillReceiveProps(nextProps) {
         console.log('componentWillReceiveProps RestrictPage');
         const { user, dispatch, authStatus } = nextProps;
         const { router } = this.context;
 
-        if(authStatus == AUTH_FAILED) {
+        if (authStatus == AUTH_FAILED) {
             const path = this.props.location.pathname;
             router.push(`/login?redirect=${path}`);
         }
     }
 
     render() {
-        console.log('render RestrictPage');
         const { user, authStatus } = this.props;
 
         if (authStatus == AUTH_SUCCESS) {
@@ -51,7 +44,6 @@ class RestrictPage extends Component {
 
 RestrictPage.propTypes = {
     user: PropTypes.object,
-    //authStatus: PropTypes.string,
     children: PropTypes.object,
     location: PropTypes.object
 };

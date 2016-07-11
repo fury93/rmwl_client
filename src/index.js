@@ -13,7 +13,6 @@ import RecoveryPassword from './containers/login/RecoveryPassword';
 import ChangePassword from './containers/login/ChangePassword';
 import RestrictPage from './containers/misc/RestrictPage';
 import Home from './containers/home/Home';
-import UsersPage from './containers/user/UsersPage';
 import Users from './components/user/Users';
 import Products from './components/product/Products';
 import ReposPage from './containers/repo/ReposPage';
@@ -33,8 +32,7 @@ ReactDOM.render(
                 <Route path="/change-password" component={ChangePassword}/>
                 <IndexRoute component={Home}/>
                 <Route component={RestrictPage}>
-                    <Route path="/users" component={UsersPage}/>
-                    <Route path="/users-list" component={Users}/>
+                    <Route path="/users" component={Users}/>
                     <Route path="/products" component={Products}/>
                     <Route path="/repos" component={ReposPage}/>
                 </Route>

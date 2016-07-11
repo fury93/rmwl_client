@@ -20,7 +20,6 @@ export default class Header extends Component {
         const isNewPasswordPage = pathname.indexOf('change-password') > -1;
         const isUsersPage = pathname.indexOf('users') > -1;
         const isReposPage = pathname.indexOf('repos') > -1;
-        const isUserList = pathname.indexOf('users-list') > -1;
         const isProductsPage = pathname.indexOf('products') > -1;
 
         return (
@@ -37,17 +36,13 @@ export default class Header extends Component {
 
                             {this.isUserAuth() &&
                                 <ul className="nav navbar-nav">
-                                    <li title="Github Users with over 1000 Followers"
-                                        className={isUsersPage ? 'nav-item active' : 'nav-item'}>
-                                        <Link className="nav-link" to="/users">Most Followed Users</Link>
-                                    </li>
                                     <li title="Github Repos with over 10000 Stars"
                                         className={isReposPage ? 'nav-item active' : 'nav-item'}>
                                         <Link className="nav-link" to="/repos">Most Starred Repos</Link>
                                     </li>
-                                    <li title="Users List"
-                                        className={isUserList ? 'nav-item active' : 'nav-item'}>
-                                        <Link className="nav-link" to="/users-list">Users List</Link>
+                                    <li title="Users"
+                                        className={isUsersPage ? 'nav-item active' : 'nav-item'}>
+                                        <Link className="nav-link" to="/users">Users</Link>
                                     </li>
                                     <li title="Products"
                                         className={isProductsPage ? 'nav-item active' : 'nav-item'}>
@@ -59,7 +54,7 @@ export default class Header extends Component {
                                 <li className="dropdown nav-item">
                                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
                                        role="button" aria-haspopup="true" aria-expanded="false">
-                                        <span className="fa fa-user header_fa"></span>{user.user || 'Anonymous'}<span
+                                        <span className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}<span
                                         className="caret"></span>
                                     </a>
                                     {this.isUserAuth() &&

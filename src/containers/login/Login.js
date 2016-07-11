@@ -8,14 +8,14 @@ import './login.css';
 class Login extends Component {
     constructor(props) {
         super(props);
-        //this.handleLogin = this.handleLogin.bind(this);
-        this.rememberChange = this.rememberChange.bind(this);
+        this.state = {
+            isRemember: true
+        };
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('componentWillReceiveProps Login');
         if (nextProps.user) {
-            // logged in, let's show redirect if any, or show home
             try {
                 const redirect = this.props.location.query.redirect;
                 this.context.router.replace(redirect);
@@ -25,20 +25,19 @@ class Login extends Component {
         }
     }
 
-    //Arrow, instead bind in constructor
     handleLogin = (event) => {
         event.preventDefault();
+
         const username = this.refs.username;
         const password = this.refs.password;
-        const rememberMe = false;//todo
-        console.log('handleLogin');
+        const rememberMe = this.state.isRemember;
+
         this.props.dispatch(login(username.value, password.value, rememberMe));
     };
 
-    rememberChange() {
-        debugger;
-        this.props.remember = !this.props.remember;
-    }
+    rememberChange = (event) => {
+        this.setState({isRemember: !this.state.isRemember});
+    };
 
     render() {
         const { user, loginError } = this.props;
@@ -77,6 +76,8 @@ class Login extends Component {
                                                 <label>
                                                     <input
                                                         type="checkbox"
+                                                        checked={this.state.isRemember}
+                                                        onChange={this.rememberChange}
                                                     /> Remember me
                                                 </label>
                                             </div>
@@ -118,10 +119,6 @@ Login.propTypes = {
     loginError: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object
-};
-
-Login.defaultProps = {
-  remember: true
 };
 
 function mapStateToProps(state) {

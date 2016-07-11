@@ -4,7 +4,7 @@ import userActions from '../../actions/user'
 import {setActiveUser, resizeUserTable} from '../../actions/userPage'
 import _ from 'lodash';
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell, ButtonCell} from '../../components/table/TableCells'
+import {TextCell, LinkCell, ActionsCell} from '../../components/table/TableCells'
 
 class UsersTable extends Component {
 
@@ -116,7 +116,7 @@ class UsersTable extends Component {
                     <Column
                         header={<Cell>Action</Cell>}
                         cell={
-                        <ButtonCell
+                        <ActionsCell
                              data={users}
                              eventDelete={this.eventDeleteUser.bind(this)}
                              eventEdit={this.eventEditUser.bind(this)}

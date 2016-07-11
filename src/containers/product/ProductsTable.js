@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import productActions from '../../actions/product/product'
 import {setActiveProduct} from '../../actions/product/productPage'
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell, ButtonCell} from '../../components/table/TableCells'
+import {TextCell, LinkCell, ActionsCell} from '../../components/table/TableCells'
 
 class ProductsTable extends Component {
 
@@ -17,19 +17,19 @@ class ProductsTable extends Component {
         dispatch(productActions.fetch());
     }
 
-    eventDeleteProduct(product) {
+    eventDeleteProduct = (product) => {
         const {dispatch} = this.props;
         dispatch(productActions.delete(product));
-    }
+    };
 
-    eventEditProduct(product) {
+    eventEditProduct = (product) => {
         const {dispatch} = this.props;
         dispatch(setActiveProduct(product));
-    }
+    };
 
     render() {
-        console.log('productTable render');
         const {products} = this.props;
+
         return (
             <div className="container-fluid">
 
@@ -56,10 +56,10 @@ class ProductsTable extends Component {
                     <Column
                         header={<Cell>Action</Cell>}
                         cell={
-                        <ButtonCell
+                        <ActionsCell
                              data={products}
-                             eventEdit={this.eventEditProduct.bind(this)}
-                             eventDelete={this.eventDeleteProduct.bind(this)}
+                             eventEdit={this.eventEditProduct}
+                             eventDelete={this.eventDeleteProduct}
                              field="id"
                         />}
                         width={200}

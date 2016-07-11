@@ -12,22 +12,22 @@ class ChangePassword extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {changePassword} = nextProps;
-        debugger;
+        //todo temp logic
         if (changePassword && changePassword.status === CHANGE_PASS_SUCCESS) {
-            setTimeout(function() {
+            setTimeout(function () {
                 this.context.router.replace('/');
             }, 2000);
-         }
+        }
     }
 
     submitPassword = (event) => {
         event.preventDefault();
         const password1 = this.refs.password1.value;
         const password2 = this.refs.password2.value;
-        const resetToken = '';
-        debugger;
+        var { token } = this.props.location.query;
+
         if (passwordValidation()) {
-            this.props.dispatch(changeUserPassword(password1, resetToken));
+            this.props.dispatch(changeUserPassword(password1, token));
         } else {
             this.props.dispatch(changePasswordStatus(CHANGE_PASS_FAILURE, 'Password not correct'));
         }

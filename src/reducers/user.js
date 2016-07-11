@@ -6,9 +6,9 @@ import {
     RESIZE_USER_TABLE
 } from '../actions/userPage';
 
-const baseReducers = reduxCrud.reducersFor('users', { store: reduxCrud.STORE_MUTABLE });
+const baseReducers = reduxCrud.reducersFor('users', {store: reduxCrud.STORE_MUTABLE});
 const defaultUserPageStore = {
-    selectedUser:{
+    selectedUser: {
         username: 'Test',
         email: 'email@gmail.com',
         roles: 'admin',
@@ -21,7 +21,7 @@ const defaultUserPageStore = {
     }
 };
 
-export function userReducer(state=[], action) {
+export function userReducer(state = [], action) {
     switch (action.type) {
         default:
             return baseReducers(state, action)
