@@ -4,7 +4,7 @@ import {
     USERS_SELECTED_SET,
     USERS_SELECTED_CLEAR,
     RESIZE_USER_TABLE
-} from '../actions/userPage';
+} from '../actions/user/userPage';
 
 const baseReducers = reduxCrud.reducersFor('users', {store: reduxCrud.STORE_MUTABLE});
 const defaultUserPageStore = {

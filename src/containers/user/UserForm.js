@@ -4,8 +4,8 @@ import classNames from 'classnames';
 export const fields = ['username', 'email', 'role', 'active', 'id'];
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import userActions from '../../actions/user';
-import {clearActiveUser} from '../../actions/userPage';
+import userActions from '../../actions/user/user';
+import {clearActiveUser} from '../../actions/user/userPage';
 import validate from '../../utils/validateUser'
 import { initialize } from 'redux-form';
 

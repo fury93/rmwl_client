@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import userActions from '../../actions/user'
-import {setActiveUser, resizeUserTable} from '../../actions/userPage'
+import userActions from '../../actions/user/user'
+import {setActiveUser, resizeUserTable} from '../../actions/user/userPage'
 import _ from 'lodash';
 import {Table, Column, Cell} from 'fixed-data-table';
 import {TextCell, LinkCell, ActionsCell} from '../../components/table/TableCells'

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import UserForm from '../../containers/user/UserForm';
 import UserTable from '../../containers/user/UsersTable';
-import userActions from '../../actions/user';
+import userActions from '../../actions/user/user';
 
 
 class Users extends Component {

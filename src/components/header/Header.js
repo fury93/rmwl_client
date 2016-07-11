@@ -19,7 +19,6 @@ export default class Header extends Component {
         const isRecoveryPasswordPage = pathname.indexOf('recovery-password') > -1;
         const isNewPasswordPage = pathname.indexOf('change-password') > -1;
         const isUsersPage = pathname.indexOf('users') > -1;
-        const isReposPage = pathname.indexOf('repos') > -1;
         const isProductsPage = pathname.indexOf('products') > -1;
 
         return (
@@ -36,10 +35,6 @@ export default class Header extends Component {
 
                             {this.isUserAuth() &&
                                 <ul className="nav navbar-nav">
-                                    <li title="Github Repos with over 10000 Stars"
-                                        className={isReposPage ? 'nav-item active' : 'nav-item'}>
-                                        <Link className="nav-link" to="/repos">Most Starred Repos</Link>
-                                    </li>
                                     <li title="Users"
                                         className={isUsersPage ? 'nav-item active' : 'nav-item'}>
                                         <Link className="nav-link" to="/users">Users</Link>

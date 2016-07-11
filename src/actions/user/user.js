@@ -2,7 +2,7 @@ import _ from 'lodash';
 import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
 import 'isomorphic-fetch';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
+import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 
 import {
     ID_TOKEN,
@@ -10,7 +10,7 @@ import {
     parseJSON,
     getUserToken,
     parseError
-} from '../utils/utils';
+} from '../../utils/utils';
 
 const baseActionCreators = reduxCrud.actionCreatorsFor('users');
 
