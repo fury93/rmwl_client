@@ -53,7 +53,7 @@ class ProductsTable extends Component {
                         cell={<TextCell data={products} field="expiration_date" />}
                         width={300}
                     />
-                    {/*<Column
+                    <Column
                         header={<Cell>Action</Cell>}
                         cell={
                         <ActionsCell
@@ -63,7 +63,7 @@ class ProductsTable extends Component {
                              field="id"
                         />}
                         width={200}
-                    /> */}
+                    />
                 </Table>
                 }
             </div>

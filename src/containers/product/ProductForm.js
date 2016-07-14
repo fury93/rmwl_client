@@ -17,7 +17,7 @@ class ProductForm extends Component {
 
     handleSubmit(data) {
         const {dispatch} = this.props;
-        debugger;
+
         if(data.id) {
             return dispatch(productActions.update(data));
         } else {

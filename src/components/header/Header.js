@@ -20,6 +20,7 @@ export default class Header extends Component {
         const isNewPasswordPage = pathname.indexOf('change-password') > -1;
         const isUsersPage = pathname.indexOf('users') > -1;
         const isProductsPage = pathname.indexOf('products') > -1;
+        const isRulesPage = pathname.indexOf('admin/roles') > -1;
 
         return (
             (!isLoginPage || !isRecoveryPasswordPage || !isNewPasswordPage) &&
@@ -34,33 +35,38 @@ export default class Header extends Component {
                             </IndexLink>
 
                             {this.isUserAuth() &&
-                                <ul className="nav navbar-nav">
-                                    <li title="Users"
-                                        className={isUsersPage ? 'nav-item active' : 'nav-item'}>
-                                        <Link className="nav-link" to="/users">Users</Link>
-                                    </li>
-                                    <li title="Products"
-                                        className={isProductsPage ? 'nav-item active' : 'nav-item'}>
-                                        <Link className="nav-link" to="/products">Products</Link>
-                                    </li>
-                                </ul>
+                            <ul className="nav navbar-nav">
+                                <li title="Users"
+                                    className={isUsersPage ? 'nav-item active' : 'nav-item'}>
+                                    <Link className="nav-link" to="/users">Users</Link>
+                                </li>
+                                <li title="Products"
+                                    className={isProductsPage ? 'nav-item active' : 'nav-item'}>
+                                    <Link className="nav-link" to="/products">Products</Link>
+                                </li>
+                                <li title="Roles"
+                                    className={isRulesPage ? 'nav-item active' : 'nav-item'}>
+                                    <Link className="nav-link" to="/admin/roles">Roles</Link>
+                                </li>
+                            </ul>
                             }
                             <ul className="nav navbar-nav navbar-right">
                                 <li className="dropdown nav-item">
                                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
                                        role="button" aria-haspopup="true" aria-expanded="false">
-                                        <span className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}<span
+                                        <span
+                                            className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}<span
                                         className="caret"></span>
                                     </a>
                                     {this.isUserAuth() &&
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <a className="dropdown-item" href="#"
-                                                   onClick={ event => this.onLogoutClick(event)}>
-                                                    <i className="fa fa-sign-out header_fa"/>Log out
-                                                </a>
-                                            </li>
-                                        </ul>
+                                    <ul className="dropdown-menu">
+                                        <li>
+                                            <a className="dropdown-item" href="#"
+                                               onClick={ event => this.onLogoutClick(event)}>
+                                                <i className="fa fa-sign-out header_fa"/>Log out
+                                            </a>
+                                        </li>
+                                    </ul>
                                     }
                                 </li>
                             </ul>

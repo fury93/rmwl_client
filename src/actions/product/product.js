@@ -30,7 +30,6 @@ let actionProducts = {
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
-                    debugger;
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.fetchSuccess(result.data.products));
                     } else {
@@ -61,7 +60,6 @@ let actionProducts = {
             }).then(checkStatus)
                 .then(parseJSON)
                 .then((result) => {
-                    debugger;
                     if (result.status === STATUS_SUCCESS) {
                         dispatch(baseActionCreators.createSuccess(result.data, cid));
                     } else {
@@ -69,7 +67,6 @@ let actionProducts = {
                     }
                 })
                 .catch((error) => {
-                    debugger;
                     dispatch(baseActionCreators.createError(error, product));
                     return Promise.reject(error);
                 });

@@ -71,13 +71,11 @@ class UsersTable extends Component {
     }
 
     eventDeleteUser(user) {
-        debugger;
         const {dispatch} = this.props;
         dispatch(userActions.delete(user));
     }
 
     eventEditUser(user) {
-        debugger;
         const {dispatch} = this.props;
         dispatch(setActiveUser(user));
     }

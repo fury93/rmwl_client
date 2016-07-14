@@ -177,7 +177,6 @@ export function checkAuth() {
         }).then(checkStatus)
             .then(parseJSON)
             .then((result) => {
-                debugger;
                 if (result.status === STATUS_SUCCESS) {
                     dispatch(loginSuccess(result.data));
                     dispatch(changeAuthStatus(AUTH_SUCCESS));
@@ -185,6 +184,7 @@ export function checkAuth() {
                     throw result.errors;
                 }
             }).catch((error) => {
+                debugger;
                 dispatch(changeAuthStatus(AUTH_FAILED));
             });
     };
@@ -193,7 +193,7 @@ export function checkAuth() {
 export function recoveryPassword(email) {
     return dispatch => {
         dispatch(changeRecoveryPassStatus(RECOVERY_PASS_INIT));
-        debugger;
+
         return fetch(`${API_URL}/v1/user/reset-password`, {
             method: 'post',
             headers: {
@@ -218,7 +218,7 @@ export function recoveryPassword(email) {
 export function changeUserPassword(password, resetToken) {
     return dispatch => {
         dispatch(changePasswordStatus(CHANGE_PASS_INIT));
-        debugger;
+
         return fetch(`${API_URL}/v1/user/change-password`, {
             method: 'post',
             headers: {
@@ -228,7 +228,6 @@ export function changeUserPassword(password, resetToken) {
         }).then(checkStatus)
             .then(parseJSON)
             .then((result) => {
-                debugger;
                 if (result.status === STATUS_SUCCESS) {
                     dispatch(changePasswordStatus(CHANGE_PASS_SUCCESS, result.data));
                 } else {

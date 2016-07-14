@@ -8,11 +8,13 @@ import {reducer as formReducer} from 'redux-form';
 
 import {userReducer, usersPage} from '../reducers/user';
 import {productReducer, productsPage} from '../reducers/product';
+import rolesPageReducer from '../reducers/admin/rolePage';
 
 const logger = createLogger();
 const rootReducer = combineReducers(
     {
         auth,
+        rolesPage: rolesPageReducer,
 
         users: userReducer,
         usersPage,
