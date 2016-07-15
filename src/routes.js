@@ -8,6 +8,7 @@ import ChangePassword from './containers/login/ChangePassword';
 import RestrictPage from './containers/misc/RestrictPage';
 import Home from './containers/home/Home';
 import RolesPage from './containers/admin/role/RolesPage';
+import UsersPermissionPage from './containers/admin/role/UsersPermissionPage';
 import Users from './components/user/Users';
 import Products from './components/product/Products';
 import NotFound from './containers/misc/NotFound';
@@ -29,6 +30,7 @@ export const routes = (
                 <Route path="/products" component={Products}/>
 
                 <Route path="/admin/roles" component={RolesPage}/>
+                <Route path="/admin/users-permissions" component={UsersPermissionPage}/>
             </Route>
 
             <Route path="*" component={NotFound}/>

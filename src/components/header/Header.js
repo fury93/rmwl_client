@@ -15,12 +15,13 @@ export default class Header extends Component {
     render() {
         const { user } = this.props;
         const pathname = this.props.location.pathname;
-        const isLoginPage = pathname.indexOf('login') > -1;
+        const isLoginPage =  pathname.indexOf('login') > -1;
         const isRecoveryPasswordPage = pathname.indexOf('recovery-password') > -1;
         const isNewPasswordPage = pathname.indexOf('change-password') > -1;
-        const isUsersPage = pathname.indexOf('users') > -1;
-        const isProductsPage = pathname.indexOf('products') > -1;
-        const isRulesPage = pathname.indexOf('admin/roles') > -1;
+        const isUsersPage = pathname ==='/users';
+        const isProductsPage = pathname === '/products';
+        const isRulesPage = pathname === '/admin/roles';
+        const isUsersPermissionsPage = pathname ==='/admin/users-permissions';
 
         return (
             (!isLoginPage || !isRecoveryPasswordPage || !isNewPasswordPage) &&
@@ -48,6 +49,10 @@ export default class Header extends Component {
                                     className={isRulesPage ? 'nav-item active' : 'nav-item'}>
                                     <Link className="nav-link" to="/admin/roles">Roles</Link>
                                 </li>
+                                <li title="Users permissions"
+                                    className={isUsersPermissionsPage ? 'nav-item active' : 'nav-item'}>
+                                    <Link className="nav-link" to="/admin/users-permissions">Users permissions</Link>
+                                </li>
                             </ul>
                             }
                             <ul className="nav navbar-nav navbar-right">
@@ -55,8 +60,8 @@ export default class Header extends Component {
                                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
                                        role="button" aria-haspopup="true" aria-expanded="false">
                                         <span
-                                            className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}<span
-                                        className="caret"></span>
+                                            className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}
+                                        <span className="caret"></span>
                                     </a>
                                     {this.isUserAuth() &&
                                     <ul className="dropdown-menu">

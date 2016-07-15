@@ -15,54 +15,54 @@ class UsersTable extends Component {
 
     componentDidMount() {
         /*const win = window;
-        if (win.addEventListener) {
-            win.addEventListener('resize', _.throttle(this.handleWindowResize, 250), false);
-        } else if (win.attachEvent) {
-            win.attachEvent('onresize', _.throttle(this.handleWindowResize, 250));
-        } else {
-            win.onresize = this.handleWindowResize;
-        }*/
+         if (win.addEventListener) {
+         win.addEventListener('resize', _.throttle(this.handleWindowResize, 250), false);
+         } else if (win.attachEvent) {
+         win.attachEvent('onresize', _.throttle(this.handleWindowResize, 250));
+         } else {
+         win.onresize = this.handleWindowResize;
+         }*/
 
         console.log('usersTable componentDidMount');
         const {dispatch} = this.props;
         dispatch(userActions.fetch());
     }
 
-/*
-    componentWillUnmount() {
-        const win = window;
-        if (win.removeEventListener) {
-            win.removeEventListener('resize', _.throttle(this.handleWindowResize, 250), false);
-        } else if (win.removeEvent) {
-            win.removeEvent('onresize', _.throttle(this.handleWindowResize, 250), false);
-        } else {
-            win.onresize = null;
-        }
-    }
+    /*
+     componentWillUnmount() {
+     const win = window;
+     if (win.removeEventListener) {
+     win.removeEventListener('resize', _.throttle(this.handleWindowResize, 250), false);
+     } else if (win.removeEvent) {
+     win.removeEvent('onresize', _.throttle(this.handleWindowResize, 250), false);
+     } else {
+     win.onresize = null;
+     }
+     }
 
-    getTableWidth() {
-        try {
-            const node = this.refs.TABLE_DIV;
-            return node.clientWidth;
-        } catch (err) {
-            return 2000;
-        }
-    }
+     getTableWidth() {
+     try {
+     const node = this.refs.TABLE_DIV;
+     return node.clientWidth;
+     } catch (err) {
+     return 2000;
+     }
+     }
 
-    getTableHeight() {
-        try {
-            const node = this.refs.TABLE_DIV;
-            return node.clientHeight;
-        } catch (err) {
-            return 1200;
-        }
-    }
+     getTableHeight() {
+     try {
+     const node = this.refs.TABLE_DIV;
+     return node.clientHeight;
+     } catch (err) {
+     return 1200;
+     }
+     }
 
-    handleWindowResize() {
-        const { dispatch } = this.props;
-        dispatch(resizeUserTable(this.getTableWidth(), this.getTableHeight()));
-    }
-*/
+     handleWindowResize() {
+     const { dispatch } = this.props;
+     dispatch(resizeUserTable(this.getTableWidth(), this.getTableHeight()));
+     }
+     */
 
     componentWillReceiveProps(nextProps) {
         console.log('usersTable componentWillReceiveProps');
@@ -87,7 +87,7 @@ class UsersTable extends Component {
             <div className="container-fluid">
 
                 {users.length === 0 &&
-                <div className="alert alert-warning">Oops, nothing to show.</div>
+                    <div className="alert alert-warning">Oops, nothing to show.</div>
                 }
                 {users.length > 0 &&
                 <Table

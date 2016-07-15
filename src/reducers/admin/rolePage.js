@@ -31,7 +31,7 @@ export default function rolePage(state = defaultStore, action) {
                 loading: false
             });
         case UPDATE_PERMISSION_BY_ROLE:
-            var newRoles = state.roles;
+            var newRoles =  Object.assign({}, state.roles);
             newRoles[action.role] = action.permission;
 
             return Object.assign({}, state, {

@@ -24,7 +24,7 @@ class RolesPage extends Component {
         return (
             <div>
                 {tabs.length > 0 &&
-                <div className="raw col-md-12">
+                <div className="row col-md-12">
                     <Tabs id="roles-tabs">
                         {
                             tabs.map((elem, index) =>

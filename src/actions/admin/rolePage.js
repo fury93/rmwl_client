@@ -2,7 +2,8 @@ import 'isomorphic-fetch';
 import {
     checkStatus,
     parseJSON,
-    parseError
+    parseError,
+    getUserToken
 } from '../../utils/utils';
 import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 
@@ -26,7 +27,6 @@ export function updatePermissionByRole(permission, role) {
     };
 }
 
-//LOAD ROLES
 function changeUpdatePermissionStatus(status) {
     return {
         type: UPDATE_PERMISSIONS,
@@ -63,10 +63,10 @@ export function loadRolesPermission() {
         dispatch(rolesPermissionRequest());
 
         return fetch(`${API_URL}/v1/permission/roles-permission`, {
-            method: 'get'
-            /*headers: {
-             "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-             }*/
+            method: 'get',
+            headers: {
+                'Authorization': 'Bearer ' + getUserToken()
+            }
         }).then(checkStatus)
             .then(parseJSON)
             .then((result) => {
@@ -86,10 +86,11 @@ export function updatePermission(permissions) {
 
         dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_INIT));
 
-        return fetch(`${API_URL}/v1/permission/update-permission`, {
+        return fetch(`${API_URL}/v1/permission/roles-permission`, {
             method: 'post',
             headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                'Authorization': 'Bearer ' + getUserToken(),
             },
             body: JSON.stringify({permissions})
         }).then(checkStatus)
