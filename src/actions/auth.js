@@ -161,12 +161,12 @@ export function logout(user) {
 
 export function checkAuth() {
     return dispatch => {
+        dispatch(changeAuthStatus(AUTH_INIT));
+
         const token = getUserToken();
         if(!token) {
             return  dispatch(changeAuthStatus(AUTH_FAILED));
         }
-
-        dispatch(changeAuthStatus(AUTH_INIT));
 
         return fetch(`${API_URL}/v1/user/check-authentication`, {
             method: 'post',
@@ -184,7 +184,6 @@ export function checkAuth() {
                     throw result.errors;
                 }
             }).catch((error) => {
-                debugger;
                 dispatch(changeAuthStatus(AUTH_FAILED));
             });
     };
@@ -209,7 +208,6 @@ export function recoveryPassword(email) {
                     throw result.errors;
                 }
             }).catch((error) => {
-                debugger;
                 dispatch(changeRecoveryPassStatus(RECOVERY_PASS_FAILURE, error));
             });
     };
@@ -234,7 +232,6 @@ export function changeUserPassword(password, resetToken) {
                     throw result.errors;
                 }
             }).catch((error) => {
-                debugger;
                 dispatch(changePasswordStatus(CHANGE_PASS_FAILURE, error));
             });
     };

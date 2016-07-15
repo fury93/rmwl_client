@@ -1,11 +1,22 @@
+import Unauthorized from '../containers/misc/Unauthorized';
+import Forbidden from '../containers/misc/Forbidden';
+import NotFound from '../containers/misc/NotFound';
+import { browserHistory } from 'react-router';
+
 export const STATUS_401 = 401;
+export const STATUS_403 = 403;
 export const ID_TOKEN = 'token';
 
 //Check response status, if status 401, then clear storage and redirect to login page
 export function checkStatus(response) {
     if (!response.ok) {   // (response.status < 200 || response.status > 300)
+
+        if(response.status === STATUS_403) {
+            browserHistory.push('/403');
+        }
+
         if(response.status === STATUS_401) {
-            //todo logout
+            browserHistory.push('/401');
         }
 
         const error = new Error(response.statusText);
@@ -34,7 +45,6 @@ export function parseError(error) {
 
     return error;
 }
-
 
 //Methods to work with local storage and token
 export function setIdToken(idToken) {

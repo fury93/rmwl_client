@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
-import {loadRolesPermission, updatePermission} from '../../actions/admin/rolePage';
-import RolePermission from '../../components/admin/RolePermission';
+import {loadRolesPermission, updatePermission} from '../../../actions/admin/rolePage';
+import RolePermission from './RolePermission';
 
 import './role.css';
 
@@ -11,10 +11,6 @@ class RolesPage extends Component {
         const {dispatch} = this.props;
         dispatch(loadRolesPermission());
     }
-
-    /*    componentWillReceiveProps(nextProps) {
-     debugger;
-     }*/
 
     savePermission = () => {
         const {dispatch, roles} = this.props;
@@ -34,7 +30,6 @@ class RolesPage extends Component {
                             tabs.map((elem, index) =>
                                 <Tab eventKey={index} key={index} title={elem}>
                                     <RolePermission
-                                        active={roles[elem]}
                                         role={elem}
                                         modules={modules}
                                     />
@@ -44,6 +39,7 @@ class RolesPage extends Component {
                     </Tabs>
                 </div>
                 }
+
                 {tabs.length > 0 &&
                 <div className="row">
                     <div className="col-sm-offset-5 col-sm-2 text-center">

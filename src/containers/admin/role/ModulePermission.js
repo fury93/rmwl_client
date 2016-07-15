@@ -1,47 +1,25 @@
 import React, { Component } from 'react';
 import CheckboxGroup from 'react-checkbox-group';
-import Permission from './Permission';
 import { connect } from 'react-redux';
-import {updatePermissionByRole} from '../../actions/admin/rolePage'
+import {updatePermissionByRole} from '../../../actions/admin/rolePage'
 
+//todo it's container
 class ModulePermission extends Component {
 
-    constructor(props) {
-        super(props);
-        /*this.state = {
-         selectedPermission: this.props.active
-         }*/
-    }
-
     changeStatus = (newPermissions) => {
-        //temp hack. After dispatch component not rendering, but storage change
-        //this.setState({selectedPermission: newPermissions});
         const {dispatch, roleName} = this.props;
         dispatch(updatePermissionByRole(newPermissions, roleName));
     };
 
-    /*
-     componentWillReceiveProps(nextProps) {
-     debugger;
-     }
-     */
-
-    /*
-     shouldComponentUpdate(newData){
-     debugger;
-     }
-     */
-
     render() {
-        const {active, roles, roleName, moduleName, module} = this.props;
-        //const {selectedPermission} = this.state;
+        const {roles, roleName, moduleName, module} = this.props;
 
         return (
             <div className="col-md-2">
                 <h4>{moduleName}</h4>
-                {/* value={roles[roleName]}*/}
+
                 <CheckboxGroup
-                    name={roleName}
+                    name={roleName + moduleName}
                     value={roles}
                     onChange={this.changeStatus}
                 >
@@ -50,8 +28,10 @@ class ModulePermission extends Component {
                             <form>
                                 {
                                     module.map((elem, i) =>
-                                        <div className="checkbox">
-                                            <Checkbox key={roleName + moduleName + i} value={elem.value}/> {elem.name}
+                                        <div className="checkbox" key={roleName + elem.value + i}>
+                                            <Checkbox
+                                                value={elem.value}
+                                            /> {elem.name}
                                         </div>
                                     )
                                 }
@@ -65,7 +45,6 @@ class ModulePermission extends Component {
 }
 
 ModulePermission.propTypes = {
-    active: React.PropTypes.array.isRequired,
     moduleName: React.PropTypes.string.isRequired,
     roleName: React.PropTypes.string.isRequired,
     module: React.PropTypes.array.isRequired
@@ -73,6 +52,7 @@ ModulePermission.propTypes = {
 
 function mapStateToProps(state, props) {
     var roles = state.rolesPage.roles[props.roleName];
+
     return {
         roles: roles
     };

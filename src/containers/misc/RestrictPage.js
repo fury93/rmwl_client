@@ -13,20 +13,25 @@ class RestrictPage extends Component {
     componentWillMount() {
         console.log('componentWillMount RestrictPage');
         const { user, dispatch, authStatus } = this.props;
-
         if (!authStatus) {
-            dispatch(changeAuthStatus(AUTH_INIT));
             dispatch(checkAuth());
+        } else {
+            this.isRedirectToLogin(authStatus);
         }
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('componentWillReceiveProps RestrictPage');
         const { user, dispatch, authStatus } = nextProps;
-        const { router } = this.context;
 
+        this.isRedirectToLogin(authStatus);
+    }
+
+    isRedirectToLogin(authStatus) {
         if (authStatus == AUTH_FAILED) {
             const path = this.props.location.pathname;
+            const { router } = this.context;
+
             router.push(`/login?redirect=${path}`);
         }
     }
