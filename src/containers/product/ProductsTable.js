@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import productActions from '../../actions/product/product'
 import {setActiveProduct} from '../../actions/product/productPage'
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell, ActionsCell} from '../../components/table/TableCells'
+import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells'
+import {vendors} from './ProductForm';
 
 class ProductsTable extends Component {
 
@@ -36,6 +37,7 @@ class ProductsTable extends Component {
                 {products.length === 0 &&
                 <div className="alert alert-warning">Oops, nothing to show.</div>
                 }
+
                 {products.length > 0 &&
                 <Table
                     rowsCount={products.length}
@@ -46,12 +48,43 @@ class ProductsTable extends Component {
                     <Column
                         header={<Cell>Name</Cell>}
                         cell={<TextCell data={products} field="name" />}
-                        width={300}
+                        width={100}
                     />
                     <Column
                         header={<Cell>Exp</Cell>}
                         cell={<TextCell data={products} field="expiration_date" />}
-                        width={300}
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Eff</Cell>}
+                        cell={<TextCell data={products} field="effective_date" />}
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Vendor</Cell>}
+                        cell={
+                        <TextCellFormat
+                           data={products}
+                           field="vendor_id"
+                           collection={vendors}
+                           />
+                        }
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Status</Cell>}
+                        cell={<TextCell data={products} field="status" />}
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Code</Cell>}
+                        cell={<TextCell data={products} field="code" />}
+                        width={100}
+                    />
+                    <Column
+                        header={<Cell>Cost</Cell>}
+                        cell={<TextCell data={products} field="cost" />}
+                        width={100}
                     />
                     <Column
                         header={<Cell>Action</Cell>}
@@ -77,9 +110,8 @@ ProductsTable.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    const { products } = state;
     return {
-        products: products || []
+        products: state.products || []
     };
 };
 

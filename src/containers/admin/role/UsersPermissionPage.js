@@ -53,6 +53,7 @@ class UsersPermissionPage extends Component {
     render() {
         const {users, usersPermission, usersModules} = this.props;
         const {selectValues, selectActive} = this.state;
+
         if(selectActive && usersPermission && usersModules) {
             var userPermissions = usersPermission[selectActive.label];
             var userModules = usersModules[selectActive.label];
