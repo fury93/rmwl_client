@@ -2,7 +2,8 @@ import SI from 'seamless-immutable'
 import reduxCrud from 'redux-crud'
 import {
     PRODUCT_SELECTED_CLEAR,
-    PRODUCT_SELECTED_SET
+    PRODUCT_SELECTED_SET,
+    RESIZE_PRODUCT_TABLE
 } from '../actions/product/productPage';
 
 const baseReducers = reduxCrud.reducersFor('products', {store: reduxCrud.STORE_MUTABLE});
@@ -11,6 +12,10 @@ const defaultProductPageStore = {
         name: '',
         expiration_date: '',
         id: false
+    },
+    tableSize: {
+        width: 900,
+        height: 700
     }
 };
 
@@ -30,6 +35,10 @@ export function productsPage(state = defaultProductPageStore, action) {
         case PRODUCT_SELECTED_CLEAR:
             return Object.assign({}, state, {
                 selectedProduct: {}
+            });
+        case RESIZE_PRODUCT_TABLE:
+            return Object.assign({}, state, {
+                tableSize: {width: action.width, height: action.height}
             });
         default:
             return state;

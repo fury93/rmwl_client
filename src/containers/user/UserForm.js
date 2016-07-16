@@ -73,12 +73,10 @@ class UserForm extends Component {
     }
 
     render() {
-        debugger;
         const {fields: { username, email, role, active, id }, clearForm, handleSubmit, roles} = this.props;
         //const {selectRoles, selectRolesActive} = this.state;
         const submitting = false;
         //const options = this.getRolesOption(roles);
-        debugger;
         const options = roles.map(role => <option value={role} key={role}>{role}</option>);
 
         return (
