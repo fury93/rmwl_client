@@ -25,3 +25,11 @@
     outline: none;
 }
 
+.nav-menu-link {
+    text-decoration: none !important;
+}
+
+.menu-logout {
+    float: right !important;
+    padding-right: 50px !important;
+}

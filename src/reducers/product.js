@@ -8,11 +8,7 @@ import {
 
 const baseReducers = reduxCrud.reducersFor('products', {store: reduxCrud.STORE_MUTABLE});
 const defaultProductPageStore = {
-    selectedProduct: {
-        name: '',
-        expiration_date: '',
-        id: false
-    },
+    selectedProduct: {},
     tableSize: {
         width: 900,
         height: 700

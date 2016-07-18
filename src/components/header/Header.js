@@ -1,83 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
+import {UserMenu} from './Menu';
 import './header.css';
 
 export default class Header extends Component {
-    onLogoutClick(event) {
-        event.preventDefault();
-        this.props.handleLogout();
-    }
-
-    isUserAuth = () => {
-        return true; //temp
-    };
 
     render() {
-        const { user } = this.props;
-        const pathname = this.props.location.pathname;
-        const isLoginPage =  pathname.indexOf('login') > -1;
-        const isRecoveryPasswordPage = pathname.indexOf('recovery-password') > -1;
-        const isNewPasswordPage = pathname.indexOf('change-password') > -1;
-        const isUsersPage = pathname ==='/users';
-        const isProductsPage = pathname === '/products';
-        const isRulesPage = pathname === '/admin/roles';
-        const isUsersPermissionsPage = pathname ==='/admin/users-permissions';
+        const {user, handleLogout} = this.props;
+        const isUserAuth = user.user || false;
+        if (!isUserAuth) {
+            return null;
+        }
 
         return (
-            (!isLoginPage || !isRecoveryPasswordPage || !isNewPasswordPage) &&
             <div>
-                <nav className="navbar navbar-default navbar-fixed-top">
-                    <div className="container-fluid">
-
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <IndexLink to="/" className="navbar-brand">
-                                <div title="Home" className="brand"/>
-                                Home
-                            </IndexLink>
-
-                            {this.isUserAuth() &&
-                            <ul className="nav navbar-nav">
-                                <li title="Users"
-                                    className={isUsersPage ? 'nav-item active' : 'nav-item'}>
-                                    <Link className="nav-link" to="/users">Users</Link>
-                                </li>
-                                <li title="Products"
-                                    className={isProductsPage ? 'nav-item active' : 'nav-item'}>
-                                    <Link className="nav-link" to="/products">Products</Link>
-                                </li>
-                                <li title="Roles"
-                                    className={isRulesPage ? 'nav-item active' : 'nav-item'}>
-                                    <Link className="nav-link" to="/admin/roles">Roles</Link>
-                                </li>
-                                <li title="Users permissions"
-                                    className={isUsersPermissionsPage ? 'nav-item active' : 'nav-item'}>
-                                    <Link className="nav-link" to="/admin/users-permissions">Users permissions</Link>
-                                </li>
-                            </ul>
-                            }
-                            <ul className="nav navbar-nav navbar-right">
-                                <li className="dropdown nav-item">
-                                    <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown"
-                                       role="button" aria-haspopup="true" aria-expanded="false">
-                                        <span
-                                            className="fa fa-user header_fa"></span>{user ? user.user : 'Anonymous'}
-                                        <span className="caret"></span>
-                                    </a>
-                                    {this.isUserAuth() &&
-                                    <ul className="dropdown-menu">
-                                        <li>
-                                            <a className="dropdown-item" href="#"
-                                               onClick={ event => this.onLogoutClick(event)}>
-                                                <i className="fa fa-sign-out header_fa"/>Log out
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    }
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                {isUserAuth &&
+                <UserMenu
+                    user={user.user || 'Anonymous'}
+                    handleLogout={handleLogout}
+                />
+                }
             </div>
         );
     }

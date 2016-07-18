@@ -75,7 +75,7 @@ let actionProducts = {
 
     update(product) {
         return dispatch => {
-            dispatch(baseActionCreators.updateStart(product));
+            //dispatch(baseActionCreators.updateStart(product));
 
             return fetch(`${API_URL}/v1/product/edit/${product.id}`, {
                 method: 'post',

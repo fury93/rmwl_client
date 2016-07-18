@@ -75,7 +75,7 @@ let actionCreators = {
 
     update(user) {
         return dispatch => {
-            dispatch(baseActionCreators.updateStart(user));
+            //dispatch(baseActionCreators.updateStart(user));
 
             return fetch(`${API_URL}/v1/user/edit/${user.id}`, {
                 method: 'post',

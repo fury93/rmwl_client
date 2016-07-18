@@ -52,7 +52,6 @@ class UserPermission extends Component {
                     )
                 }
 
-
                 <div className="row">
                     <div className="col-sm-offset-5 col-sm-2 text-center">
                         <input className="btn btn-lg btn-primary btn-block"
