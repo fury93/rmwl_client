@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, Link, browserHistory } from 'react-router';
 import {
-    recoveryPassword,
+    recoveryPassword as recoveryPasswordAction,
     changeRecoveryPassStatus,
     RECOVERY_PASS_FAILURE,
     RECOVERY_PASS_SUCCESS
 } from '../../actions/auth';
+import ButtonToLogin from '../../components/misc/ButtonToLogin';
 
 class RecoveryPassword extends Component {
 
@@ -15,9 +16,9 @@ class RecoveryPassword extends Component {
         const email = this.refs.email.value;
 
         if (email) {
-            this.props.dispatch(recoveryPassword(email));
+            this.props.dispatch(recoveryPasswordAction(email));
         } else {
-            this.props.dispatch(changeRecoveryPassStatus(RECOVERY_PASS_FAILURE, 'Email can\'t be empty'));
+            this.props.dispatch(changeRecoveryPassStatus('Email can\'t be empty', RECOVERY_PASS_FAILURE));
         }
     };
 
@@ -69,13 +70,24 @@ class RecoveryPassword extends Component {
                                                     </div>
                                                 }
 
-                                                <div className="form-group">
-                                                    <input className="btn btn-lg btn-primary btn-block"
-                                                           value="ОК"
-                                                           type="submit"
-                                                           onClick={this.sendEmail}
+                                                {
+                                                    recoveryPassword.status === RECOVERY_PASS_SUCCESS &&
+                                                    <ButtonToLogin
+                                                        value="Back to login"
                                                     />
-                                                </div>
+                                                }
+
+                                                {
+                                                    recoveryPassword.status !== RECOVERY_PASS_SUCCESS &&
+                                                    <div className="form-group">
+                                                        <input className="btn btn-lg btn-primary btn-block"
+                                                               value="ОК"
+                                                               type="submit"
+                                                               onClick={this.sendEmail}
+                                                        />
+                                                    </div>
+                                                }
+
                                             </fieldset>
                                         </form>
 

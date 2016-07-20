@@ -8,7 +8,7 @@ import {
     getUserToken,
     parseError
 } from '../utils/utils';
-
+import { CALL_API } from '../middleware/api';
 import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -35,7 +35,7 @@ export const CHANGE_PASS_SUCCESS = 'CHANGE_PASS_SUCCESS';
 export const CHANGE_PASS_FAILURE = 'CHANGE_PASS_FAILURE';
 
 //Auth
-export function changeAuthStatus(status) {
+export function changeAuthStatus(payload, status) {
     return {
         type: AUTH_STATUS,
         status
@@ -43,28 +43,27 @@ export function changeAuthStatus(status) {
 }
 
 //Recovery password
-export function changeRecoveryPassStatus(status, msg = null) {
+export function changeRecoveryPassStatus(msg, status) {
     return {
         type: RECOVERY_PASS_STATUS,
         status,
-        msg
+        msg: msg.message || msg
     };
 }
 
 //Change password
-export function changePasswordStatus(status, msg = null) {
+export function changePasswordStatus(msg, status) {
     return {
         type: CHANGE_PASS_STATUS,
         status,
-        msg
+        msg: msg.message || msg
     };
 }
 
 //Login
-function loginRequest(user) {
+function loginRequest() {
     return {
-        type: LOGIN_REQUEST,
-        user
+        type: LOGIN_REQUEST
     };
 }
 
@@ -81,158 +80,96 @@ function loginSuccess(data) {
     };
 }
 
-function loginFailure(user, error) {
+function loginFailure(error) {
     removeIdToken();
 
     return {
         type: LOGIN_FAILURE,
-        user,
         error
     };
 }
 
 //Logout
-function logoutRequest(user) {
+function logoutRequest() {
     return {
-        type: LOGOUT_REQUEST,
-        user
+        type: LOGOUT_REQUEST
     };
 }
 
-function logoutSuccess(user) {
+function logoutSuccess() {
     removeIdToken();
 
     return {
-        type: LOGOUT_SUCCESS,
-        user
+        type: LOGOUT_SUCCESS
     };
 }
 
-function logoutFailure(user, error) {
+function logoutFailure(error) {
     return {
         type: LOGOUT_FAILURE,
-        user,
         error
     };
 }
 
 //Action methods
 export function login(username, password, rememberMe) {
-    return dispatch => {
-        dispatch(loginRequest(username));
-
-        return fetch(`${API_URL}/v1/user/login`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/user/login',
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: JSON.stringify({username, password, rememberMe})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(loginSuccess(result.data));
-                } else {
-                    dispatch(loginFailure(username, {'message': result.errors}));
-                }
-            }).catch((error) => {
-                dispatch(loginFailure(username, parseError(error)));
-            });
+            types: [loginRequest, loginSuccess, loginFailure],
+            body: {username, password, rememberMe}
+        }
     };
 }
 
 export function logout(user) {
-    return dispatch => {
-        dispatch(logoutRequest(user));
-        return fetch(`${API_URL}/v1/user/logout`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/user/logout',
             method: 'post',
-            mode: 'cors',
-            headers: {
-                'Authorization': 'Bearer ' + getUserToken(),
-            },
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then(json => dispatch(logoutSuccess(user)))
-            .catch((error) => {
-                dispatch(logoutFailure(user, parseError(error)));
-            });
+            types: [logoutRequest, logoutSuccess, logoutFailure],
+            authenticated: true
+        }
     };
 }
 
 export function checkAuth() {
-    return dispatch => {
-        dispatch(changeAuthStatus(AUTH_INIT));
+    const token = getUserToken();
 
-        const token = getUserToken();
-        if(!token) {
-            return  dispatch(changeAuthStatus(AUTH_FAILED));
-        }
-
-        return fetch(`${API_URL}/v1/user/check-authentication`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/user/check-authentication',
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: JSON.stringify({token})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(loginSuccess(result.data));
-                    dispatch(changeAuthStatus(AUTH_SUCCESS));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(changeAuthStatus(AUTH_FAILED));
-            });
+            types: [changeAuthStatus, [loginSuccess, changeAuthStatus], changeAuthStatus],
+            args: [[AUTH_INIT], [AUTH_SUCCESS], [AUTH_FAILED]],
+            authenticated: true,
+            body: {token}
+        }
     };
 }
 
 export function recoveryPassword(email) {
-    return dispatch => {
-        dispatch(changeRecoveryPassStatus(RECOVERY_PASS_INIT));
-
-        return fetch(`${API_URL}/v1/user/reset-password`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/user/reset-password',
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: JSON.stringify({email})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(changeRecoveryPassStatus(RECOVERY_PASS_SUCCESS, result.data));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(changeRecoveryPassStatus(RECOVERY_PASS_FAILURE, error));
-            });
+            types: [changeRecoveryPassStatus, changeRecoveryPassStatus, changeRecoveryPassStatus],
+            args: [[RECOVERY_PASS_INIT], [RECOVERY_PASS_SUCCESS], [RECOVERY_PASS_FAILURE]],
+            authenticated: true,
+            body: {email}
+        }
     };
 }
 
 export function changeUserPassword(password, resetToken) {
-    return dispatch => {
-        dispatch(changePasswordStatus(CHANGE_PASS_INIT));
-
-        return fetch(`${API_URL}/v1/user/change-password`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/user/change-password',
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: JSON.stringify({password, resetToken})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(changePasswordStatus(CHANGE_PASS_SUCCESS, result.data));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(changePasswordStatus(CHANGE_PASS_FAILURE, error));
-            });
+            types: [changePasswordStatus, changePasswordStatus, changePasswordStatus],
+            args: [[CHANGE_PASS_INIT], [CHANGE_PASS_SUCCESS], [CHANGE_PASS_FAILURE]],
+            body: {password, resetToken}
+        }
     };
 }

@@ -14,7 +14,6 @@ import Products from './components/product/Products';
 import NotFound from './containers/misc/NotFound';
 import Forbidden from './containers/misc/Forbidden';
 import Unauthorized from './containers/misc/Unauthorized';
-import {UserMenu} from './components/header/Menu';
 
 export const routes = (
     <div>
@@ -24,7 +23,6 @@ export const routes = (
             <Route path="/change-password" component={ChangePassword}/>
             <Route path="/403" component={Forbidden}/>
             <Route path="/401" component={Unauthorized}/>
-            <Route path="/menu" component={UserMenu}/>
 
             <Route component={RestrictPage}>
                 <IndexRoute component={Home}/>

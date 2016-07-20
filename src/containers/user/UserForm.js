@@ -10,23 +10,6 @@ import validate from '../../utils/validateUser'
 import { initialize } from 'redux-form';
 
 class UserForm extends Component {
-    constructor(props) {
-        super(props);
-/*        this.state = {
-            selectRoles: '',
-            selectRolesActive: null
-        }*/
-    }
-
-/*    componentWillMount() {
-        const {roles} = this.props;
-        debugger;
-        if(roles) {
-            var options = roles.map(role => <option value={role} key={role}>{role}</option>);
-            this.setState({selectRoles: this.getOptions(options)});
-        }
-
-    }*/
 
     handleSubmit = (data)=> {
         const {dispatch} = this.props;
@@ -38,45 +21,9 @@ class UserForm extends Component {
         }
     };
 
-/*
-    changeRole = (active) => {
-        this.setState({selectRolesActive: active});
-    };
-*/
-
-    //Get options for select (create universal method)
-/*    getOptions = (roles) => {
-        var values = [];
-
-        for (var key in roles) {
-            values.push({
-                value: key,
-                label: roles[key]
-            });
-        }
-
-        return values;
-    };
-
-    getRolesOption = (roles) => {
-        debugger;
-        if(roles) {
-            var options = roles.map(role => <option value={role} key={role}>{role}</option>);
-            return options;
-        }
-        return '';
-    };*/
-
-    resetForm(data) {
-        console.log('Reset form!', data);
-        this.props.dispatch(initialize('user', {}));
-    }
-
     render() {
         const {fields: { username, email, role, active, id }, clearForm, handleSubmit, roles} = this.props;
-        //const {selectRoles, selectRolesActive} = this.state;
         const submitting = false;
-        //const options = this.getRolesOption(roles);
         const options = roles.map(role => <option value={role} key={role}>{role}</option>);
 
         return (
@@ -104,14 +51,6 @@ class UserForm extends Component {
                 <div className={classNames('form-group', {'has-error': role.error})}>
                     <label className="control-label">Roles</label>
                     <div>
-                        {/* <select
-                            {...role}
-                            className="form-control"
-                            value={role.value || ''}>
-                            <option></option>
-                            <option value="admin">admin</option>
-                            <option value="employee">employee</option>
-                        </select>*/}
                         <select {...role} className="form-control">
                             <option value="">Select a role...</option>
                             {options}
@@ -137,20 +76,7 @@ class UserForm extends Component {
 UserForm.propTypes = {
     fields: PropTypes.object.isRequired,
     clearForm: PropTypes.func.isRequired
-    //handleSubmit: PropTypes.func.isRequired,
-    //resetForm: PropTypes.func.isRequired,
-    //submitting: PropTypes.bool.isRequired
 };
-
-/*const mapStateToProps = (state, ownProps) => {
- const { users } = state;
- //todo add to state userPage block and field id with active component, if null, then use default data
-
-
- return {
- initialValues: defaultUser
- };
- };*/
 
 UserForm = reduxForm({
         form: 'user',

@@ -29,7 +29,7 @@ export function updatePermissionByRole(permission, role) {
     };
 }
 
-function changeUpdatePermissionStatus(status) {
+function changeUpdatePermissionStatus(payload, status) {
     return {
         type: UPDATE_PERMISSIONS,
         status
@@ -38,8 +38,7 @@ function changeUpdatePermissionStatus(status) {
 
 function rolesPermissionRequest() {
     return {
-        type: ROLES_PERMISSIONS_REQUEST,
-        loading: true
+        type: ROLES_PERMISSIONS_REQUEST
     };
 }
 
@@ -70,30 +69,14 @@ export function loadRolesPermission() {
 }
 
 export function updatePermission(permissions) {
-
-    return dispatch => {
-
-        dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_INIT));
-        dispatch(spinnerStart());
-
-        return fetch(`${API_URL}/v1/permission/roles-permission`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/permission/roles-permission',
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                'Authorization': 'Bearer ' + getUserToken(),
-            },
-            body: JSON.stringify({permissions})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                dispatch(spinnerStop());
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_SUCCESS));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_FAILURE));
-            });
+            types: [changeUpdatePermissionStatus, changeUpdatePermissionStatus, changeUpdatePermissionStatus],
+            args: [[UPDATE_PERMISSIONS_INIT], [UPDATE_PERMISSIONS_SUCCESS], [UPDATE_PERMISSIONS_FAILURE]],
+            authenticated: true,
+            body: {permissions}
+        }
     };
 }

@@ -22,9 +22,7 @@ import {
 } from '../actions/auth';
 
 const initialState = {
-    user: {
-        user: null
-    },
+    user: null,
     roles: null,
     loggingIn: false,
     loggingOut: false,
@@ -52,27 +50,24 @@ export default function auth(state = initialState, action = {}) {
                 authStatus: AUTH_SUCCESS
             });
         case LOGIN_FAILURE:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loggingIn: false,
                 user: null,
                 roles: null,
                 loginError: action.error,
                 authStatus: AUTH_FAILED
-            };
+            });
         case LOGOUT_REQUEST:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loggingOut: true
-            };
+            });
         case LOGOUT_SUCCESS:
             return Object.assign({}, initialState);
         case LOGOUT_FAILURE:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loggingOut: false,
                 logoutError: action.error
-            };
+            });
         case AUTH_STATUS:
             return Object.assign({}, state, {authStatus: action.status});
         case RECOVERY_PASS_STATUS:

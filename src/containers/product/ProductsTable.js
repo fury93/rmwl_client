@@ -23,7 +23,7 @@ class ProductsTable extends Component {
 
         const {dispatch} = this.props;
         dispatch(productActions.fetch());
-        setTimeout(this.handleWindowResize, 3000);
+        setTimeout(this.handleWindowResize, 1000);
     }
 
     componentWillUnmount() {

@@ -45,7 +45,7 @@ class UsersPermissionPage extends Component {
     changeUser = (active) => {
         const {dispatch, usersPermission} = this.props;
         this.setState({selectActive: active});
-        if(active && active.value && !usersPermission[active.label]) {
+        if(active && active.value) { //&& !usersPermission[active.label]
             dispatch(loadUserPermission(active.value));
         }
     };

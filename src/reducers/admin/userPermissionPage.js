@@ -10,7 +10,7 @@ const defaultStore = {
     usersPermission: {},
     usersModules: {},
     errors: null,
-    loadingId: false,
+    loading: false,
     updateStatus: null
 };
 
@@ -26,18 +26,18 @@ export default function userPermissionPage(state = defaultStore, action) {
                 usersPermission: permission,
                 usersModules: modules,
                 errors: null,
-                loadingId: false
+                loading: false
             });
         case USER_PERMISSIONS_FAILURE:
             return Object.assign({}, state, {
                 usersPermission: {},
                 usersModules: {},
                 errors: action.error,
-                loadingId: false
+                loading: false
             });
         case USER_PERMISSIONS_REQUEST:
             return Object.assign({}, state, {
-                loadingId: action.id
+                loading: true
             });
         case UPDATE_PERMISSION_BY_USER:
             var usersPermission = Object.assign({}, state.usersPermission);

@@ -36,6 +36,7 @@ let actionProducts = {
             [CALL_API]: {
                 endpoint: '/v1/product',
                 authenticated: true,
+                validation: true,
                 method: 'post',
                 types: [crudProduct.createStart, crudProduct.createSuccess, crudProduct.createError],
                 args: [null, [cid]],
@@ -49,6 +50,7 @@ let actionProducts = {
             [CALL_API]: {
                 endpoint: `/v1/product/edit/${product.id}`,
                 authenticated: true,
+                validation: true,
                 method: 'post',
                 //types: [crudProduct.createStart, crudProduct.createSuccess, crudProduct.createError],
                 types: [null, crudProduct.updateSuccess, crudProduct.updateError],

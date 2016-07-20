@@ -1,29 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import { logout } from '../../actions/auth';
 import Spinner from'react-spinkit';
 
+
 import './app.css';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     handleLogout() {
-        const { user } = this.props;
-        this.props.dispatch(logout(user));
-        this.context.router.replace('/login');
+        const { user, dispatch } = this.props;
+        dispatch(logout(user));
+        browserHistory.push('/login');
     }
 
     render() {
-        const { user, spinner } = this.props;
+        const { auth, spinner } = this.props;
 
         return (
             <div className="container-fluid">
-                <Header location={this.props.location} user={user} handleLogout={() => this.handleLogout()}/>
+                <Header location={this.props.location} auth={auth} handleLogout={() => this.handleLogout()}/>
                 {
                     spinner &&
                     <div className="spinner-global">
@@ -41,8 +40,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-    user: PropTypes.object,
-    spinner: PropTypes.bool,
+    auth: PropTypes.object.isRequired,
+    spinner: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired
@@ -57,7 +56,7 @@ const mapStateToProps = (state) => {
     const { auth, app } = state;
 
     return {
-        user: auth ? auth.user : null,
+        auth,
         spinner: app.spinner
     };
 };

@@ -7,18 +7,9 @@ import {
     CHANGE_PASS_FAILURE,
     CHANGE_PASS_SUCCESS
 } from '../../actions/auth';
+import ButtonToLogin from '../../components/misc/ButtonToLogin';
 
 class ChangePassword extends Component {
-
-    componentWillReceiveProps(nextProps) {
-        const {changePassword} = nextProps;
-        //todo temp logic
-        if (changePassword && changePassword.status === CHANGE_PASS_SUCCESS) {
-            setTimeout(function () {
-                this.context.router.replace('/');
-            }, 2000);
-        }
-    }
 
     submitPassword = (event) => {
         event.preventDefault();
@@ -26,16 +17,11 @@ class ChangePassword extends Component {
         const password2 = this.refs.password2.value;
         var { token } = this.props.location.query;
 
-        if (passwordValidation()) {
+        if (password1 && password1 === password2) {
             this.props.dispatch(changeUserPassword(password1, token));
         } else {
-            this.props.dispatch(changePasswordStatus(CHANGE_PASS_FAILURE, 'Password not correct'));
+            this.props.dispatch(changePasswordStatus('Password not correct', CHANGE_PASS_FAILURE));
         }
-
-        function passwordValidation() {
-            return (password1 && password1 === password2);
-        }
-
     };
 
     render() {
@@ -100,13 +86,24 @@ class ChangePassword extends Component {
                                                     </div>
                                                 }
 
-                                                <div className="form-group">
-                                                    <input className="btn btn-lg btn-primary btn-block"
-                                                           value="Change"
-                                                           type="submit"
-                                                           onClick={this.submitPassword}
+                                                {
+                                                    changePassword.status === CHANGE_PASS_SUCCESS &&
+                                                    <ButtonToLogin
+                                                        value="Back to login"
                                                     />
-                                                </div>
+                                                }
+
+                                                {
+                                                    changePassword.status !== CHANGE_PASS_SUCCESS &&
+                                                    <div className="form-group">
+                                                        <input className="btn btn-lg btn-primary btn-block"
+                                                               value="Change"
+                                                               type="submit"
+                                                               onClick={this.submitPassword}
+                                                        />
+                                                    </div>
+                                                }
+
                                             </fieldset>
                                         </form>
 

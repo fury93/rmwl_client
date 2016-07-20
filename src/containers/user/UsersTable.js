@@ -22,7 +22,7 @@ class UsersTable extends Component {
 
         const {dispatch} = this.props;
         dispatch(userActions.fetch());
-        setTimeout(this.handleWindowResize, 3000); // HACK. delay needed. Otherwise getTableWith and getTableHeight may throw error.
+        setTimeout(this.handleWindowResize, 1000); // HACK. delay needed. Otherwise getTableWith and getTableHeight may throw error.
     }
 
     componentWillUnmount() {

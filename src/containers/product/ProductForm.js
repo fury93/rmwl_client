@@ -10,12 +10,8 @@ export const vendors = ['Vendor1', 'Vendor2', 'Vendor3', 'Super Vendor'];
 export const statuses = ['Status1', 'Status2'];
 
 class ProductForm extends Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
 
-    handleSubmit(data) {
+    handleSubmit = (data) => {
         const {dispatch} = this.props;
 
         if (data.id) {
@@ -23,15 +19,9 @@ class ProductForm extends Component {
         } else {
             return dispatch(productActions.create(data));
         }
-    }
-
-    resetForm(data) {
-        console.log('Reset form!', data);
-        this.props.dispatch(initialize('product', {}));
-    }
+    };
 
     render() {
-        console.log('productForm render');
         const {
             fields: { name, expiration_date, id, effective_date, vendor_id, status, code, cost},
             clearForm,
@@ -40,7 +30,6 @@ class ProductForm extends Component {
         const submitting = false;
 
         return (
-
             <form role="form" onSubmit={handleSubmit(this.handleSubmit)}>
 
                 <input type="hidden" {...id}/>

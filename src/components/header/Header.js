@@ -1,13 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Link, IndexLink } from 'react-router';
 import {UserMenu} from './Menu';
+import {
+    AUTH_SUCCESS,
+} from '../../actions/auth';
 import './header.css';
 
 export default class Header extends Component {
 
     render() {
-        const {user, handleLogout} = this.props;
-        const isUserAuth = user.user || false;
+        const {auth, handleLogout} = this.props;
+        const isUserAuth = auth.authStatus === AUTH_SUCCESS;
+
         if (!isUserAuth) {
             return null;
         }
@@ -16,7 +19,7 @@ export default class Header extends Component {
             <div>
                 {isUserAuth &&
                 <UserMenu
-                    user={user.user || 'Anonymous'}
+                    user={auth.user ? auth.user.user : 'Anonymous'}
                     handleLogout={handleLogout}
                 />
                 }
@@ -26,7 +29,7 @@ export default class Header extends Component {
 }
 
 Header.propTypes = {
-    user: PropTypes.object,
+    auth: PropTypes.object.isRequired,
     handleLogout: PropTypes.func.isRequired,
     location: React.PropTypes.object
 };

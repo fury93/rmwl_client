@@ -27,7 +27,7 @@ export function updatePermissionByUser(permission, user) {
     };
 }
 
-function updateUserPermissionStatus(status) {
+function updateUserPermissionStatus(payload, status) {
     return {
         type: UPDATE_USER_PERMISSIONS,
         status
@@ -35,11 +35,9 @@ function updateUserPermissionStatus(status) {
 }
 
 //UPDATE USERS PERMISSIONS
-//todo not used
-function userPermissionRequest(id) {
+function userPermissionRequest() {
     return {
-        type: USER_PERMISSIONS_REQUEST,
-        id: id
+        type: USER_PERMISSIONS_REQUEST
     };
 }
 
@@ -66,32 +64,20 @@ export function loadUserPermission(id) {
             endpoint: `/v1/permission/user-permission/${id}`,
             authenticated: true,
             method: 'get',
-            types: [null, userPermissionSuccess, userPermissionFailure]
+            types: [userPermissionRequest, userPermissionSuccess, userPermissionFailure]
         }
     };
 }
 
 export function updateUserPermission(id, permissions) {
-    return dispatch => {
-        dispatch(updateUserPermissionStatus(UPDATE_USER_PERMISSIONS_INIT));
-
-        return fetch(`${API_URL}/v1/permission/user-permission/${id}`, {
+    return {
+        [CALL_API]: {
+            endpoint: `/v1/permission/user-permission/${id}`,
             method: 'post',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                'Authorization': 'Bearer ' + getUserToken()
-            },
-            body: JSON.stringify({permissions})
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(updateUserPermissionStatus(UPDATE_USER_PERMISSIONS_SUCCESS));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(updateUserPermissionStatus(UPDATE_USER_PERMISSIONS_FAILURE));
-            });
+            types: [updateUserPermissionStatus, updateUserPermissionStatus, updateUserPermissionStatus],
+            args: [[UPDATE_USER_PERMISSIONS_INIT], [UPDATE_USER_PERMISSIONS_SUCCESS], [UPDATE_USER_PERMISSIONS_FAILURE]],
+            authenticated: true,
+            body: {permissions}
+        }
     };
 }

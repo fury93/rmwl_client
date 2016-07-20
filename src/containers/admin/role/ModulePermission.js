@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CheckboxGroup from 'react-checkbox-group';
 import { connect } from 'react-redux';
-import {updatePermissionByRole} from '../../../actions/admin/rolePage'
+import { updatePermissionByRole } from '../../../actions/admin/rolePage'
 
 //todo it's container
 class ModulePermission extends Component {

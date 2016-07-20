@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
-`import api from '../middleware/api';
+import api from '../middleware/api';
 import createLogger from 'redux-logger';
 import auth from '../reducers/auth';
 import app from '../reducers/application';

@@ -33,6 +33,7 @@ let actionCreators = {
             [CALL_API]: {
                 endpoint: '/v1/user',
                 authenticated: true,
+                validation: true,
                 method: 'post',
                 types: [crudUser.createStart, crudUser.createSuccess, crudUser.createError],
                 args: [null, [cid]],
@@ -46,6 +47,7 @@ let actionCreators = {
             [CALL_API]: {
                 endpoint: `/v1/user/edit/${user.id}`,
                 authenticated: true,
+                validation: true,
                 method: 'post',
                 //types: [crudUser.createStart, crudUser.createSuccess, crudUser.createError],
                 types: [null, crudUser.updateSuccess, crudUser.updateError],

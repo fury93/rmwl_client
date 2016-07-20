@@ -41,7 +41,6 @@ export class UserMenu extends Component {
     };
 
     getMenu = () => {
-        const isUsersPage = true;
         const {user, handleLogout} = this.props;
 
         return (
@@ -100,9 +99,10 @@ export class UserMenu extends Component {
     };
 
     render() {
-        return (<div>
-            {this.getMenu()}
-        </div>);
+        return (
+            <div>
+                {this.getMenu()}
+            </div>);
     }
 }
 

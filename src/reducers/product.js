@@ -1,4 +1,3 @@
-import SI from 'seamless-immutable'
 import reduxCrud from 'redux-crud'
 import {
     PRODUCT_SELECTED_CLEAR,
