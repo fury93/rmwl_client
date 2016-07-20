@@ -1,8 +1,6 @@
-import _ from 'lodash';
 import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
-import 'isomorphic-fetch';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
+import { CALL_API } from '../../middleware/api';
 
 import {
     ID_TOKEN,
@@ -12,124 +10,63 @@ import {
     parseError
 } from '../../utils/utils';
 
-const baseActionCreators = reduxCrud.actionCreatorsFor('users');
+const crudUser = reduxCrud.actionCreatorsFor('users');
 
 let actionCreators = {
 
     fetch() {
-        return dispatch => {
-            dispatch(baseActionCreators.fetchStart());
-
-            return fetch(`${API_URL}/v1/user`, {
+        return {
+            [CALL_API]: {
+                endpoint: '/v1/user',
+                authenticated: true,
                 method: 'get',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                }
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.fetchSuccess(result.data.users));
-                    } else {
-                        dispatch(baseActionCreators.fetchError({'message': result.errors}))
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.fetchError(error));
-                    console.log(error.message);
-                });
+                types: [crudUser.fetchStart, crudUser.fetchSuccess, crudUser.fetchError]
+            }
         };
     },
 
     create(user) {
-        return dispatch => {
-            const cid = cuid();
-            user = Object.assign({}, user, {id: cid});
-            dispatch(baseActionCreators.createStart(user));
+        const cid = cuid();
+        user = Object.assign({}, user, {id: cid});
 
-            return fetch(`${API_URL}/v1/user`, {
+        return {
+            [CALL_API]: {
+                endpoint: '/v1/user',
+                authenticated: true,
                 method: 'post',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: JSON.stringify(user)
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.createSuccess(result.data, cid));
-                    } else {
-                        throw result.errors;
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.createError(error, user));
-                    return Promise.reject(error);
-                });
+                types: [crudUser.createStart, crudUser.createSuccess, crudUser.createError],
+                args: [null, [cid]],
+                body: user
+            }
         };
     },
 
     update(user) {
-        return dispatch => {
-            //dispatch(baseActionCreators.updateStart(user));
-
-            return fetch(`${API_URL}/v1/user/edit/${user.id}`, {
+        return {
+            [CALL_API]: {
+                endpoint: `/v1/user/edit/${user.id}`,
+                authenticated: true,
                 method: 'post',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: JSON.stringify(user)
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.updateSuccess(result.data));
-                    } else {
-                        throw result.errors;
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.updateError(error, user));
-                    return Promise.reject(error);
-                });
+                //types: [crudUser.createStart, crudUser.createSuccess, crudUser.createError],
+                types: [null, crudUser.updateSuccess, crudUser.updateError],
+                body: user
+            }
         };
     },
 
     delete(user) {
-        return dispatch => {
-            dispatch(baseActionCreators.deleteStart(user));
-
-            return fetch(`${API_URL}/v1/user/${user.id}`, {
+        return {
+            [CALL_API]: {
+                endpoint: `/v1/user/${user.id}`,
+                authenticated: true,
                 method: 'delete',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                //body: JSON.stringify(user)
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.deleteSuccess(user));
-                    } else {
-                        dispatch(baseActionCreators.deleteError(result, user));
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.deleteError(error, user));
-                    console.log(error.message);
-                });
+                types: [crudUser.deleteStart, crudUser.deleteSuccess, crudUser.deleteError],
+                body: user
+            }
         };
     }
 };
 
-actionCreators = _.extend(actionCreators, baseActionCreators);
+actionCreators = Object.assign({}, actionCreators, crudUser);
 
-export default actionCreators
+export default actionCreators;

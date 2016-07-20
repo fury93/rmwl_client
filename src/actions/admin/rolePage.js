@@ -5,6 +5,8 @@ import {
     parseError,
     getUserToken
 } from '../../utils/utils';
+import { CALL_API } from '../../middleware/api';
+import {spinnerStart, spinnerStop} from '../application';
 import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 
 export const ROLES_PERMISSIONS_REQUEST = 'ROLES_PERMISSIONS_REQUEST';
@@ -34,7 +36,6 @@ function changeUpdatePermissionStatus(status) {
     };
 }
 
-//UPDATE ROLES
 function rolesPermissionRequest() {
     return {
         type: ROLES_PERMISSIONS_REQUEST,
@@ -58,33 +59,22 @@ function rolesPermissionFailure(error) {
 }
 
 export function loadRolesPermission() {
-    return dispatch => {
-
-        dispatch(rolesPermissionRequest());
-
-        return fetch(`${API_URL}/v1/permission/roles-permission`, {
+    return {
+        [CALL_API]: {
+            endpoint: '/v1/permission/roles-permission',
+            authenticated: true,
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + getUserToken()
-            }
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(rolesPermissionSuccess(result.data));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(rolesPermissionFailure(error));
-            });
+            types: [rolesPermissionRequest, rolesPermissionSuccess, rolesPermissionFailure]
+        }
     };
 }
 
 export function updatePermission(permissions) {
+
     return dispatch => {
 
         dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_INIT));
+        dispatch(spinnerStart());
 
         return fetch(`${API_URL}/v1/permission/roles-permission`, {
             method: 'post',
@@ -96,6 +86,7 @@ export function updatePermission(permissions) {
         }).then(checkStatus)
             .then(parseJSON)
             .then((result) => {
+                dispatch(spinnerStop());
                 if (result.status === STATUS_SUCCESS) {
                     dispatch(changeUpdatePermissionStatus(UPDATE_PERMISSIONS_SUCCESS));
                 } else {

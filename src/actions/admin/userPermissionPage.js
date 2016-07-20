@@ -6,6 +6,7 @@ import {
     getUserToken
 } from '../../utils/utils';
 import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
+import { CALL_API } from '../../middleware/api';
 
 export const USER_PERMISSIONS_REQUEST = 'USER_PERMISSIONS_REQUEST';
 export const USER_PERMISSIONS_SUCCESS = 'USER_PERMISSIONS_SUCCESS';
@@ -34,6 +35,7 @@ function updateUserPermissionStatus(status) {
 }
 
 //UPDATE USERS PERMISSIONS
+//todo not used
 function userPermissionRequest(id) {
     return {
         type: USER_PERMISSIONS_REQUEST,
@@ -59,26 +61,13 @@ function userPermissionFailure(error) {
 
 //Users permissions page
 export function loadUserPermission(id) {
-    return dispatch => {
-
-        dispatch(userPermissionRequest(id));
-
-        return fetch(`${API_URL}/v1/permission/user-permission/${id}`, {
+    return {
+        [CALL_API]: {
+            endpoint: `/v1/permission/user-permission/${id}`,
+            authenticated: true,
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + getUserToken()
-            }
-        }).then(checkStatus)
-            .then(parseJSON)
-            .then((result) => {
-                if (result.status === STATUS_SUCCESS) {
-                    dispatch(userPermissionSuccess(result.data));
-                } else {
-                    throw result.errors;
-                }
-            }).catch((error) => {
-                dispatch(userPermissionFailure(error));
-            });
+            types: [null, userPermissionSuccess, userPermissionFailure]
+        }
     };
 }
 

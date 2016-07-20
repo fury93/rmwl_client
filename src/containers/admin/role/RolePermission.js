@@ -9,7 +9,7 @@ class RolePermission extends Component {
         var modulesName = Object.keys(modules);
 
         return (
-            <div class="row">
+            <div>
                 {
                     modulesName.map((name, index) =>
                         <ModulePermission

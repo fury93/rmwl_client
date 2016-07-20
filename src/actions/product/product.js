@@ -3,6 +3,7 @@ import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
 import 'isomorphic-fetch';
 import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
+import { CALL_API } from '../../middleware/api';
 
 import {
     ID_TOKEN,
@@ -12,122 +13,63 @@ import {
     parseError
 } from '../../utils/utils';
 
-const baseActionCreators = reduxCrud.actionCreatorsFor('products');
+const crudProduct = reduxCrud.actionCreatorsFor('products');
 
-//Duplicate code, need to fix it (similar code for all crud actions)
 let actionProducts = {
 
     fetch() {
-        return dispatch => {
-            dispatch(baseActionCreators.fetchStart());
-
-            return fetch(`${API_URL}/v1/product`, {
+        return {
+            [CALL_API]: {
+                endpoint: '/v1/product',
+                authenticated: true,
                 method: 'get',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken()
-                }
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.fetchSuccess(result.data.products));
-                    } else {
-                        dispatch(baseActionCreators.fetchError({'message': result.errors}))
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.fetchError(error));
-                    console.log(error.message);
-                });
+                types: [crudProduct.fetchStart, crudProduct.fetchSuccess, crudProduct.fetchError]
+            }
         };
     },
 
     create(product) {
-        return dispatch => {
-            const cid = cuid();
-            product = Object.assign({}, product, {id: cid});
-            dispatch(baseActionCreators.createStart(product));
+        const cid = cuid();
+        product = Object.assign({}, product, {id: cid});
 
-            return fetch(`${API_URL}/v1/product`, {
+        return {
+            [CALL_API]: {
+                endpoint: '/v1/product',
+                authenticated: true,
                 method: 'post',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: JSON.stringify(product)
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.createSuccess(result.data, cid));
-                    } else {
-                        throw result.errors;
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.createError(error, product));
-                    return Promise.reject(error);
-                });
+                types: [crudProduct.createStart, crudProduct.createSuccess, crudProduct.createError],
+                args: [null, [cid]],
+                body: product
+            }
         };
     },
 
     update(product) {
-        return dispatch => {
-            //dispatch(baseActionCreators.updateStart(product));
-
-            return fetch(`${API_URL}/v1/product/edit/${product.id}`, {
+        return {
+            [CALL_API]: {
+                endpoint: `/v1/product/edit/${product.id}`,
+                authenticated: true,
                 method: 'post',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken(),
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                body: JSON.stringify(product)
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.updateSuccess(result.data));
-                    } else {
-                        throw result.errors;
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.updateError(error, product));
-                    return Promise.reject(error);
-                });
+                //types: [crudProduct.createStart, crudProduct.createSuccess, crudProduct.createError],
+                types: [null, crudProduct.updateSuccess, crudProduct.updateError],
+                body: product
+            }
         };
     },
 
     delete(product) {
-        return dispatch => {
-            dispatch(baseActionCreators.deleteStart(product));
-
-            return fetch(`${API_URL}/v1/product/${product.id}`, {
+        return {
+            [CALL_API]: {
+                endpoint: `/v1/product/${product.id}`,
+                authenticated: true,
                 method: 'delete',
-                mode: 'cors',
-                headers: {
-                    'Authorization': 'Bearer ' + getUserToken()
-                }
-            }).then(checkStatus)
-                .then(parseJSON)
-                .then((result) => {
-                    if (result.status === STATUS_SUCCESS) {
-                        dispatch(baseActionCreators.deleteSuccess(product));
-                    } else {
-                        dispatch(baseActionCreators.deleteError(result, product));
-                    }
-                })
-                .catch((error) => {
-                    dispatch(baseActionCreators.deleteError(error, product));
-                    console.log(error.message);
-                });
+                types: [crudProduct.deleteStart, crudProduct.deleteSuccess, crudProduct.deleteError],
+                body: product
+            }
         };
     }
 };
 
-actionProducts = _.extend(actionProducts, baseActionCreators);
+actionProducts = Object.assign({}, actionProducts, crudProduct);
 
-export default actionProducts
+export default actionProducts;

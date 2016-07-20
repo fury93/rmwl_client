@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import { logout } from '../../actions/auth';
+import Spinner from'react-spinkit';
 
 import './app.css';
 
@@ -18,11 +19,18 @@ class App extends Component {
     }
 
     render() {
-        const { user } = this.props;
+        const { user, spinner } = this.props;
 
         return (
             <div className="container-fluid">
                 <Header location={this.props.location} user={user} handleLogout={() => this.handleLogout()}/>
+                {
+                    spinner &&
+                    <div className="spinner-global">
+                        <Spinner spinnerName='three-bounce'/>
+                    </div>
+                }
+
                 <div className="appContent">
                     {this.props.children}
                 </div>
@@ -34,6 +42,7 @@ class App extends Component {
 
 App.propTypes = {
     user: PropTypes.object,
+    spinner: PropTypes.bool,
     children: PropTypes.node.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired
@@ -45,9 +54,11 @@ App.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-    const { auth } = state;
+    const { auth, app } = state;
+
     return {
-        user: auth ? auth.user : null
+        user: auth ? auth.user : null,
+        spinner: app.spinner
     };
 };
 

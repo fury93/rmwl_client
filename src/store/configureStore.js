@@ -1,8 +1,10 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
+`import api from '../middleware/api';
 import createLogger from 'redux-logger';
 import auth from '../reducers/auth';
+import app from '../reducers/application';
 import reduxCrud from 'redux-crud';
 import {reducer as formReducer} from 'redux-form';
 
@@ -15,6 +17,8 @@ const logger = createLogger();
 const rootReducer = combineReducers(
     {
         auth,
+        app,
+
         rolesPage: rolesPageReducer,
         usersPermissionPage: userPermissionReducer,
 
@@ -35,12 +39,12 @@ export default function configureStore() {
     let store;
     if (module.hot) {
         store = createStore(rootReducer, initialState, compose(
-            applyMiddleware(thunkMiddleware, logger),
+            applyMiddleware(thunkMiddleware, api, logger),
             window.devToolsExtension ? window.devToolsExtension() : f => f
         ));
     } else {
         store = createStore(rootReducer, initialState, compose(
-            applyMiddleware(thunkMiddleware), f=>f
+            applyMiddleware(thunkMiddleware, api), f=>f
         ));
     }
 

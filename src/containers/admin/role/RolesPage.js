@@ -7,6 +7,7 @@ import RolePermission from './RolePermission';
 import './role.css';
 
 class RolesPage extends Component {
+
     componentWillMount() {
         const {dispatch} = this.props;
         dispatch(loadRolesPermission());
