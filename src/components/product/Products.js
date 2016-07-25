@@ -9,8 +9,13 @@ class Products extends Component {
         console.log('render products');
         return (
             <div id="row">
-                <div className="col-md-12">
+                <div className="col-md-6">
                     <ProductsTable />
+                </div>
+                <div className="col-md-6">
+                    <ProductForm
+                        isClear={true}
+                    />
                 </div>
             </div>
         );

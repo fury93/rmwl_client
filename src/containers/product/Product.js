@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import ProductForm from '../../containers/product/ProductForm';
 import ProductChart from  '../../components/product/ProductChart';
+import InfoBlock from  '../../components/misc/InfoBlock';
 import {setActiveProduct} from '../../actions/product/productPage';
 import productActions from '../../actions/product/product';
 
@@ -11,7 +12,7 @@ class Product extends Component {
     componentWillMount() {
         console.log('componentWillMount Product');
         const { dispatch, products } = this.props;
-        if(products.length == 0) {
+        if (products.length == 0) {
             dispatch(productActions.fetch());
         } else {
             this.setProduct(products);
@@ -26,8 +27,8 @@ class Product extends Component {
     }
 
     isProduct(products, id) {
-        for(var key in products) {
-            if(products[key].id == id) {
+        for (var key in products) {
+            if (products[key].id == id) {
                 return products[key];
             }
         }
@@ -39,7 +40,7 @@ class Product extends Component {
         const {  dispatch, params } = this.props;
         var product = this.isProduct(products, params.productId);
 
-        if(product) {
+        if (product) {
             dispatch(setActiveProduct(product));
         } else {
             browserHistory.push('/404');
@@ -47,6 +48,8 @@ class Product extends Component {
     }
 
     render() {
+        const {product} = this.props;
+
         return (
             <div>
                 <div className="panel panel-primary">
@@ -55,24 +58,19 @@ class Product extends Component {
                     </div>
 
                     <div className="panel-body">
-                        <div className="col-md-4">
-                            <img src="/../assets/igm/logo.png" width="500" height="300px" alt="img"/>
-                        </div>
-                        <div className="col-md-8 well">
-                            DESCRIPTION
-                        </div>
+                        <InfoBlock
+                            data={product}
+                        />
                     </div>
                 </div>
 
                 <div className="panel panel-primary">
                     <div className="panel-heading">
-                        <h3 className="panel-title">Product description</h3>
+                        <h3 className="panel-title">Product form</h3>
                     </div>
 
                     <div className="panel-body">
-                        <div className="col-md-6">
-                            <ProductForm />
-                        </div>
+                        <ProductForm/>
                     </div>
                 </div>
 
@@ -101,12 +99,13 @@ class Product extends Component {
 }
 
 Product.propTypes = {
-    products: React.PropTypes.array.isRequired
+    products: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products || []
+        products: state.products || [],
+        product: state.productsPage.selectedProduct
     };
 };
 

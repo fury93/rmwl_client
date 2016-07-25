@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux'
-import vendorActions from '../../actions/vendor/vendor'
-import {setActiveVendor, resizeVendorTable} from '../../actions/vendor/vendorPage'
+import { connect } from 'react-redux';
+import vendorActions from '../../actions/vendor/vendor';
+import { browserHistory } from 'react-router';
+import {setActiveVendor, resizeVendorTable} from '../../actions/vendor/vendorPage';
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells'
+import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells';
 
 import {tableDidMount, tableWillUnmount, getTableHeight, getTableWidth} from '../../utils/tableResize';
 
@@ -44,6 +45,12 @@ class VendorsTable extends Component {
         dispatch(setActiveVendor(vendor));
     };
 
+    eventViewVendor = (vendor) => {
+        const {dispatch} = this.props;
+        dispatch(setActiveVendor(vendor));
+        browserHistory.push(`/inventory/vendors/${vendor.id}`);
+    };
+
     render() {
         const {vendors, vendorsTableSize} = this.props;
 
@@ -76,7 +83,7 @@ class VendorsTable extends Component {
                         <Column
                             header={<Cell>Contact info</Cell>}
                             cell={<TextCell data={vendors} field="contact_info" />}
-                            width={300}
+                            width={100}
                         />
                         <Column
                             header={<Cell>Status</Cell>}
@@ -90,6 +97,7 @@ class VendorsTable extends Component {
                                      data={vendors}
                                      eventEdit={this.eventEditVendor}
                                      eventDelete={this.eventDeleteVendor}
+                                     eventView={this.eventViewVendor}
                                      field="id"
                                 />
                             }

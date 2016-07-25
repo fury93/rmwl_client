@@ -13,7 +13,9 @@ class Vendors extends Component {
                     <VendorsTable />
                 </div>
                 <div className="col-md-6">
-                    <VendorForm/>
+                    <VendorForm
+                        isClear={true}
+                    />
                 </div>
             </div>
         );

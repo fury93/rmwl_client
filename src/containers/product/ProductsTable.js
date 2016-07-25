@@ -18,14 +18,26 @@ class ProductsTable extends Component {
         this.getTableWidth = getTableWidth.bind(this);
         this.tableDidMount = tableDidMount.bind(this);
         this.tableWillUnmount = tableWillUnmount.bind(this);
+        this._onFilterChange = this._onFilterChange.bind(this);
+
+        this.state = {
+            filteredProducts: this.props.products
+        };
     }
 
     componentDidMount() {
         this.tableDidMount();
-
         const {dispatch} = this.props;
         dispatch(productActions.fetch());
         setTimeout(this.handleWindowResize, 1000);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.products) {
+            this.state = {
+                filteredProducts: nextProps.products
+            };
+        }
     }
 
     componentWillUnmount() {
@@ -48,16 +60,47 @@ class ProductsTable extends Component {
         browserHistory.push(`/inventory/products/${product.id}`);
     };
 
-/*    eventEditProduct = (product) => {
+    eventEditProduct = (product) => {
         const {dispatch} = this.props;
         dispatch(setActiveProduct(product));
-    };*/
+    };
+
+    _onFilterChange(e) {
+        const {products} = this.props;
+        debugger;
+        if (!e.target.value) {
+            this.setState({
+                filteredProducts: products
+            });
+        }
+
+        var filterBy = e.target.value.toLowerCase();
+        var size = products.length;
+        var filteredValues = [];
+        for (var index = 0; index < size; index++) {
+            var {name} = products[index];
+            if (name.toLowerCase().indexOf(filterBy) !== -1) {
+                filteredValues.push(products[index]);
+            }
+        }
+
+        this.setState({
+            filteredProducts: filteredValues
+        });
+    }
 
     render() {
-        const {products, productsTableSize} = this.props;
+        const { productsTableSize} = this.props;
+        var {filteredProducts} = this.state;
+        var products = filteredProducts || [];
 
         return (
             <div className="container-fluid">
+
+                <input
+                    onChange={this._onFilterChange}
+                    placeholder="Filter by Name"
+                />
 
                 {products.length === 0 &&
                 <div className="alert alert-warning">Oops, nothing to show.</div>
@@ -75,7 +118,7 @@ class ProductsTable extends Component {
                         <Column
                             header={<Cell>Name</Cell>}
                             cell={<TextCell data={products} field="name" />}
-                            width={200}
+                            width={100}
                         />
                         <Column
                             header={<Cell>Exp</Cell>}
@@ -109,8 +152,28 @@ class ProductsTable extends Component {
                             width={100}
                         />
                         <Column
+                            header={<Cell>Class</Cell>}
+                            cell={<TextCell data={products} field="product_class" />}
+                            width={100}
+                        />
+                        <Column
                             header={<Cell>Cost</Cell>}
                             cell={<TextCell data={products} field="cost" />}
+                            width={100}
+                        />
+                        <Column
+                            header={<Cell>Cost Per Unit</Cell>}
+                            cell={<TextCell data={products} field="cost_per_unit" />}
+                            width={100}
+                        />
+                        <Column
+                            header={<Cell>Price Per Unit</Cell>}
+                            cell={<TextCell data={products} field="price_per_unit" />}
+                            width={100}
+                        />
+                        <Column
+                            header={<Cell>Unit of measure</Cell>}
+                            cell={<TextCell data={products} field="unit_of_measure" />}
                             width={100}
                         />
                         <Column
@@ -120,6 +183,7 @@ class ProductsTable extends Component {
                                      data={products}
                                      eventDelete={this.eventDeleteProduct}
                                      eventView={this.eventViewProduct}
+                                     eventEdit={this.eventEditProduct}
                                      field="id"
                                 />
                             }

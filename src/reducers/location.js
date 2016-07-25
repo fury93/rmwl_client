@@ -9,7 +9,7 @@ const baseReducers = reduxCrud.reducersFor('locations', {store: reduxCrud.STORE_
 const defaultLocationPageStore = {
     selectedLocation: {},
     tableSize: {
-        width: 800,
+        width: 700,
         height: 700
     }
 };

@@ -4,25 +4,23 @@ import classNames from 'classnames';
 import { Router, browserHistory } from 'react-router';
 import productActions from '../../actions/product/product';
 import {clearActiveProduct} from '../../actions/product/productPage';
-import { initialize } from 'redux-form';
 import DateInput from '../../components/misc/DateInput';
-/*import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
-import DatePicker from "react-bootstrap-date-picker";
-import * as moment from 'moment';*/
+import {zeroTime} from '../../utils/utils';
 
-export const fields = ['name', 'expiration_date', 'id', 'effective_date', 'vendor_id', 'status', 'code', 'cost'];
+export const fields = ['id', 'vendor_id', 'name', 'code', 'description', 'status', 'unit_of_measure', 'product_class',
+    'uom', 'cost', 'cost_per_unit', 'price_per_unit', 'effective_date', 'expiration_date'];
 export const vendors = ['Vendor1', 'Vendor2', 'Vendor3', 'Super Vendor'];
 export const statuses = ['Status1', 'Status2'];
+export const productClasses = ['Class1', 'Class2'];
+export const unitsOfMeasure = ['G', 'Mg', 'Kg'];
+
+var TODAY = zeroTime(new Date());
 
 class ProductForm extends Component {
-    constructor(props) {
-        super(props);
-        //momentLocalizer(Moment);
-    }
 
     handleSubmit = (data) => {
         const {dispatch} = this.props;
+
         if (data.id) {
             return dispatch(productActions.update(data));
         } else {
@@ -30,23 +28,13 @@ class ProductForm extends Component {
         }
     };
 
-    fixBlur = (event, input) => {
-        event.target = {value: input.value};
-        input.onBlur(event);
-    };
-
-    handleChange = (value) => {
-        // value is an ISO String.
-/*        this.setState({
-            value: value
-        });*/
-    };
-
     render() {
         const {
-            fields: { name, expiration_date, id, effective_date, vendor_id, status, code, cost},
+            fields: { id, vendor_id, name, code, description, status, unit_of_measure, product_class, uom,
+                cost, cost_per_unit, price_per_unit, effective_date, expiration_date},
             clearForm,
-            handleSubmit
+            handleSubmit,
+            isClear
             } = this.props;
         const submitting = false;
 
@@ -55,84 +43,143 @@ class ProductForm extends Component {
 
                 <input type="hidden" {...id}/>
 
-                <div className={classNames('form-group', {'has-error': name.error})}>
-                    <label className="control-label">Name</label>
-                    <div>
-                        <input type="text" className="form-control" placeholder="Name" {...name}/>
+                <div className="col-md-6">
+
+                    <div className={classNames('form-group', {'has-error': name.error})}>
+                        <label className="control-label">Name</label>
+                        <div>
+                            <input type="text" className="form-control" placeholder="Name" {...name}/>
+                        </div>
+                        {name.touched && name.error && <div className="help-block">{name.error}</div>}
                     </div>
-                    {name.touched && name.error && <div className="help-block">{name.error}</div>}
+
+                    <div className={classNames('form-group', {'has-error': effective_date.error})}>
+                        <label className="control-label">Effective date</label>
+                        <div>
+                            <div>
+                                <DateInput
+                                    field={effective_date}
+                                    placeholder="Effective date"
+                                    min={effective_date.value || TODAY}
+                                />
+                            </div>
+                        </div>
+                        {effective_date.touched && effective_date.error &&
+                        <div className="help-block">{effective_date.error}</div>}
+                    </div>
+
+                    <div className={classNames('form-group', {'has-error': status.error})}>
+                        <label className="control-label">Status</label>
+                        <div>
+                            <select {...status} className="form-control">
+                                <option value="">Select status...</option>
+                                {statuses.map(status => <option value={status} key={status}>{status}</option>)}
+                            </select>
+                        </div>
+                        {status.touched && status.error && <div className="help-block">{status.error}</div>}
+                    </div>
+
+                    <div className={classNames('form-group', {'has-error': product_class.error})}>
+                        <label className="control-label">Product Class</label>
+                        <div>
+                            <select {...product_class} className="form-control">
+                                <option value="">Select product class...</option>
+                                {productClasses.map(productClass =>
+                                    <option value={productClass} key={productClass}>{productClass}</option>)}
+                            </select>
+                        </div>
+                        {product_class.touched && product_class.error &&
+                        <div className="help-block">{product_class.error}</div>}
+                    </div>
+
+                    <div className={classNames('form-group', {'has-error': cost.error})}>
+                        <label className="control-label">Cost</label>
+                        <div>
+                            <input type="text" className="form-control" placeholder="Cost" {...cost}/>
+                        </div>
+                        {cost.touched && cost.error &&
+                        <div className="help-block">{cost.error}</div>}
+                    </div>
+
+                    <div className={classNames('form-group', {'has-error': cost_per_unit.error})}>
+                        <label className="control-label">Cost Per Unit</label>
+                        <div>
+                            <input type="text" className="form-control" placeholder="Cost Per Unit" {...cost_per_unit}/>
+                        </div>
+                        {cost_per_unit.touched && cost_per_unit.error &&
+                        <div className="help-block">{cost_per_unit.error}</div>}
+                    </div>
+
+                    <div className={classNames('form-group', {'has-error': price_per_unit.error})}>
+                        <label className="control-label">Price Per Unit</label>
+                        <div>
+                            <input type="text" className="form-control"
+                                   placeholder="Price Per Unit" {...price_per_unit}/>
+                        </div>
+                        {price_per_unit.touched && price_per_unit.error &&
+                        <div className="help-block">{cost_per_unit.error}</div>}
+                    </div>
+
                 </div>
 
-                <div className={classNames('form-group', {'has-error': expiration_date.error})}>
-                    <label className="control-label">Exp</label>
-                    <div>
-                        <input type="text" className="form-control" placeholder="Exp" {...expiration_date}/>
-                        {/*<DateInput
-                             {...expiration_date}
-                         />*/}
-                        {/*<DateTimePicker className="form-control"
-                         format="dd/MM/yyyy"
-                         name={expiration_date.name}
-                         time={false}
-                         value={expiration_date.value}
-                         />*/}
-                        {/*<DatePicker
-                            {...expiration_date}
-                            dateFormat='MM/DD/YY'
-                            value={expiration_date.value ? moment(expiration_date.value) : null }
-                        />*/}
-                    </div>
-                    {expiration_date.touched && expiration_date.error &&
-                    <div className="help-block">{expiration_date.error}</div>}
-                </div>
+                <div className="col-md-6">
 
-                <div className={classNames('form-group', {'has-error': effective_date.error})}>
-                    <label className="control-label">Effective date</label>
-                    <div>
-                        <input type="text" className="form-control" placeholder="Effective date" {...effective_date}/>
+                    <div className={classNames('form-group', {'has-error': code.error})}>
+                        <label className="control-label">Code</label>
+                        <div>
+                            <input type="text" className="form-control" placeholder="Code" {...code}/>
+                        </div>
+                        {code.touched && code.error &&
+                        <div className="help-block">{code.error}</div>}
                     </div>
-                    {effective_date.touched && effective_date.error &&
-                    <div className="help-block">{effective_date.error}</div>}
-                </div>
 
-                <div className={classNames('form-group', {'has-error': vendor_id.error})}>
-                    <label className="control-label">Vendor</label>
-                    <div>
-                        <select {...vendor_id} className="form-control">
-                            <option value="">Select vendor...</option>
-                            {vendors.map((vendor, key) => <option value={key} key={vendor}>{vendor}</option>)}
-                        </select>
+                    <div className={classNames('form-group', {'has-error': expiration_date.error})}>
+                        <label className="control-label">Exp</label>
+                        <div>
+                            <DateInput
+                                field={expiration_date}
+                                placeholder="Exp"
+                                min={expiration_date.value || TODAY}
+                            />
+                        </div>
+                        {expiration_date.touched && expiration_date.error &&
+                        <div className="help-block">{expiration_date.error}</div>}
                     </div>
-                    {vendor_id.touched && vendor_id.error && <div className="help-block">{vendor_id.error}</div>}
-                </div>
 
-                <div className={classNames('form-group', {'has-error': status.error})}>
-                    <label className="control-label">Status</label>
-                    <div>
-                        <select {...status} className="form-control">
-                            <option value="">Select status...</option>
-                            {statuses.map(status => <option value={status} key={status}>{status}</option>)}
-                        </select>
+                    <div className={classNames('form-group', {'has-error': vendor_id.error})}>
+                        <label className="control-label">Vendor</label>
+                        <div>
+                            <select {...vendor_id} className="form-control">
+                                <option value="">Select vendor...</option>
+                                {vendors.map((vendor, key) => <option value={key} key={vendor}>{vendor}</option>)}
+                            </select>
+                        </div>
+                        {vendor_id.touched && vendor_id.error && <div className="help-block">{vendor_id.error}</div>}
                     </div>
-                    {status.touched && status.error && <div className="help-block">{status.error}</div>}
-                </div>
 
-                <div className={classNames('form-group', {'has-error': code.error})}>
-                    <label className="control-label">Code</label>
-                    <div>
-                        <input type="text" className="form-control" placeholder="Code" {...code}/>
+                    <div className={classNames('form-group', {'has-error': unit_of_measure.error})}>
+                        <label className="control-label">Unit of measure</label>
+                        <div>
+                            <select {...unit_of_measure} className="form-control">
+                                <option value="">Select unit of measure...</option>
+                                {unitsOfMeasure.map(unitOfMeasure =>
+                                    <option value={unitOfMeasure} key={unitOfMeasure}>{unitOfMeasure}</option>)}
+                            </select>
+                        </div>
+                        {unit_of_measure.touched && unit_of_measure.error &&
+                        <div className="help-block">{unit_of_measure.error}</div>}
                     </div>
-                    {code.touched && code.error &&
-                    <div className="help-block">{code.error}</div>}
-                </div>
 
-                <div className={classNames('form-group', {'has-error': cost.error})}>
-                    <label className="control-label">Cost</label>
-                    <div>
-                        <input type="text" className="form-control" placeholder="Cost" {...cost}/>
+                    <div className={classNames('form-group', {'has-error': description.error})}>
+                        <label className="control-label">Description</label>
+                        <div>
+                        <textarea className="form-control" rows="10"
+                            {...description}
+                                  value={description.value || ''}/>
+                        </div>
+                        {description.touched && description.error &&
+                        <div className="help-block">{description.error}</div>}
                     </div>
-                    {cost.touched && cost.error &&
-                    <div className="help-block">{cost.error}</div>}
                 </div>
 
                 <div className="form-group">
@@ -140,9 +187,11 @@ class ProductForm extends Component {
                         {submitting ? <i/> : <i/>} {!id.value && 'Create'} {id.value && 'Update'}
                     </button>
 
-                    <button type="button" className="btn btn-danger" disabled={submitting} onClick={() => clearForm()}>
-                        Clear
-                    </button>
+                    {isClear &&
+                        <button type="button" className="btn btn-danger" disabled={submitting} onClick={() => clearForm()}>
+                            Clear
+                        </button>
+                    }
                 </div>
 
             </form>
@@ -152,14 +201,15 @@ class ProductForm extends Component {
 
 ProductForm.propTypes = {
     fields: PropTypes.object.isRequired,
-    clearForm: PropTypes.func.isRequired
+    clearForm: PropTypes.func.isRequired,
+    isClear: PropTypes.bool
 };
 
 ProductForm = reduxForm({
         form: 'product',
         fields
     },
-    state => ({ // mapStateToProps
+    state => ({
         initialValues: state.productsPage.selectedProduct
     }),
     {clearForm: clearActiveProduct}

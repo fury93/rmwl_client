@@ -24,7 +24,8 @@ class VendorForm extends Component {
             fields: { name, address, id, description, contact_info, status},
             clearForm,
             handleSubmit,
-            vendorStatus
+            vendorStatus,
+            isClear
             } = this.props;
         const submitting = false;
 
@@ -75,7 +76,7 @@ class VendorForm extends Component {
                     <div>
                         <textarea className="form-control"
                             {...description}
-                            value={description.value || ''}/>
+                                  value={description.value || ''}/>
                     </div>
                     {description.touched && description.error &&
                     <div className="help-block">{description.error}</div>}
@@ -85,10 +86,12 @@ class VendorForm extends Component {
                     <button type="submit" className="btn btn-primary" disabled={submitting}>
                         {submitting ? <i/> : <i/>} {!id.value && 'Create'} {id.value && 'Update'}
                     </button>
-
+                    {isClear &&
                     <button type="button" className="btn btn-danger" disabled={submitting} onClick={() => clearForm()}>
                         Clear
                     </button>
+                    }
+
                 </div>
 
             </form>
@@ -98,7 +101,8 @@ class VendorForm extends Component {
 
 VendorForm.propTypes = {
     fields: PropTypes.object.isRequired,
-    clearForm: PropTypes.func.isRequired
+    clearForm: PropTypes.func.isRequired,
+    isClear: PropTypes.bool
 };
 
 VendorForm = reduxForm({

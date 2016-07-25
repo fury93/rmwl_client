@@ -6,7 +6,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import userActions from '../../actions/user/user';
 import {clearActiveUser} from '../../actions/user/userPage';
-import validate from '../../utils/validateUser'
+//import validate from '../../utils/validateUser'
 import { initialize } from 'redux-form';
 
 class UserForm extends Component {
@@ -80,8 +80,7 @@ UserForm.propTypes = {
 
 UserForm = reduxForm({
         form: 'user',
-        fields,
-        validate
+        fields
     },
     state => ({ // mapStateToProps
         initialValues: state.usersPage.selectedUser,

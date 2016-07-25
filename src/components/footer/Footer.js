@@ -1,13 +1,35 @@
-import React from 'react';
-
+import React, { Component, PropTypes } from 'react';
+import {
+    AUTH_SUCCESS,
+} from '../../actions/auth';
 import './footer.css';
 
-const Footer = () => (
-    <footer className="footer">
-        <p className="text-xs-center text-center">
-            RMWL 2016
-        </p>
-    </footer>
-);
+export default class Footer extends Component {
+    render() {
+        const {auth} = this.props;
+        const isUserAuth = auth.authStatus === AUTH_SUCCESS;
 
-export default Footer;
+        if (!isUserAuth) {
+            return null;
+        }
+
+        return (
+            <div>
+                {isUserAuth &&
+                <footer className="footer">
+                    <p className="text-xs-center text-center">
+                        RMWL {new Date().getFullYear()}
+                    </p>
+                </footer>
+                }
+            </div>
+        );
+    }
+}
+
+Footer.propTypes = {
+    auth: PropTypes.object.isRequired
+};
+
+
+

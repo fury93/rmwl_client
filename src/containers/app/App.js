@@ -11,7 +11,7 @@ import './app.css';
 
 class App extends Component {
 
-    handleLogout() {
+    handleLogout = () => {
         const { user, dispatch } = this.props;
         dispatch(logout(user));
         browserHistory.push('/login');
@@ -22,7 +22,9 @@ class App extends Component {
 
         return (
             <div className="container-fluid">
-                <Header location={this.props.location} auth={auth} handleLogout={() => this.handleLogout()}/>
+                <Header
+                    auth={auth}
+                    handleLogout={this.handleLogout}/>
                 {
                     spinner &&
                     <div className="spinner-global">
@@ -33,7 +35,9 @@ class App extends Component {
                 <div className="appContent">
                     {this.props.children}
                 </div>
-                <Footer/>
+                <Footer
+                    auth={auth}
+                />
             </div>
         );
     }

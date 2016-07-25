@@ -64,3 +64,9 @@ export function getUserToken() {
 
     return token || null;
 }
+
+export function zeroTime(date) {
+    date.setHours(0, 0, 0, 0);
+
+    return date;
+}

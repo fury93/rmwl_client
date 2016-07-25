@@ -13,6 +13,7 @@ import Users from './components/user/Users';
 import Products from './components/product/Products';
 import Product from './containers/product/Product';
 import Vendors from './components/vendor/Vendors';
+import Vendor from './containers/vendor/Vendor';
 import Locations from './components/location/Locations';
 import NotFound from './containers/misc/NotFound';
 import Forbidden from './containers/misc/Forbidden';
@@ -35,6 +36,7 @@ export const routes = (
                 <Route path="/inventory/products/:productId" component={Product}/>
 
                 <Route path="/inventory/vendors" component={Vendors}/>
+                <Route path="/inventory/vendors/:vendorId" component={Vendor}/>
 
                 <Route path="/admin/users" component={Users}/>
                 <Route path="/admin/roles" component={RolesPage}/>
