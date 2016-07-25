@@ -52,14 +52,8 @@ export class UserMenu extends Component {
                 mode="horizontal"
                 openAnimation="slide-up"
             >
-                {/*<MenuItem key="home">
-                 <IndexLink to="/" className="navbar-brand">
-                 <div title="Home" className="brand"/>
-                 Home
-                 </IndexLink>
-                 </MenuItem> */}
                 <MenuItem key="/">HOME</MenuItem>
-                <MenuItem key="/#/cheduler">SCHEDULER</MenuItem>
+                <MenuItem key="/#/scheduler">SCHEDULER</MenuItem>
                 <MenuItem key="/#/pos">POS</MenuItem>
                 <SubMenu key="patient" title="PATIENT INTAKE">
                     <MenuItem key="/#/patient/new">NEW PATIENT</MenuItem>
@@ -85,6 +79,7 @@ export class UserMenu extends Component {
                     <MenuItem key="/admin/users">USER CREATION</MenuItem>
                     <MenuItem key="/admin/roles">USER ROLE CREATION</MenuItem>
                     <MenuItem key="/admin/users-permission">USERS PERMISSION</MenuItem>
+                    <MenuItem key="/admin/locations">LOCATIONS</MenuItem>
                     <MenuItem key="/#/admin/service">ADD SERVICE</MenuItem>
                     <MenuItem key="/#/admin/coupon">COUPON CREATION</MenuItem>
                     <MenuItem key="/#/admin/referral">REFERRAL CREATION</MenuItem>

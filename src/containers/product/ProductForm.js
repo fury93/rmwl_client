@@ -1,24 +1,45 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
 import classNames from 'classnames';
+import { Router, browserHistory } from 'react-router';
 import productActions from '../../actions/product/product';
 import {clearActiveProduct} from '../../actions/product/productPage';
 import { initialize } from 'redux-form';
+import DateInput from '../../components/misc/DateInput';
+/*import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import DatePicker from "react-bootstrap-date-picker";
+import * as moment from 'moment';*/
 
 export const fields = ['name', 'expiration_date', 'id', 'effective_date', 'vendor_id', 'status', 'code', 'cost'];
 export const vendors = ['Vendor1', 'Vendor2', 'Vendor3', 'Super Vendor'];
 export const statuses = ['Status1', 'Status2'];
 
 class ProductForm extends Component {
+    constructor(props) {
+        super(props);
+        //momentLocalizer(Moment);
+    }
 
     handleSubmit = (data) => {
         const {dispatch} = this.props;
-
         if (data.id) {
             return dispatch(productActions.update(data));
         } else {
             return dispatch(productActions.create(data));
         }
+    };
+
+    fixBlur = (event, input) => {
+        event.target = {value: input.value};
+        input.onBlur(event);
+    };
+
+    handleChange = (value) => {
+        // value is an ISO String.
+/*        this.setState({
+            value: value
+        });*/
     };
 
     render() {
@@ -46,6 +67,20 @@ class ProductForm extends Component {
                     <label className="control-label">Exp</label>
                     <div>
                         <input type="text" className="form-control" placeholder="Exp" {...expiration_date}/>
+                        {/*<DateInput
+                             {...expiration_date}
+                         />*/}
+                        {/*<DateTimePicker className="form-control"
+                         format="dd/MM/yyyy"
+                         name={expiration_date.name}
+                         time={false}
+                         value={expiration_date.value}
+                         />*/}
+                        {/*<DatePicker
+                            {...expiration_date}
+                            dateFormat='MM/DD/YY'
+                            value={expiration_date.value ? moment(expiration_date.value) : null }
+                        />*/}
                     </div>
                     {expiration_date.touched && expiration_date.error &&
                     <div className="help-block">{expiration_date.error}</div>}

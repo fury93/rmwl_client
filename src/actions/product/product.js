@@ -1,8 +1,6 @@
-import _ from 'lodash';
 import reduxCrud from 'redux-crud';
 import cuid from 'cuid';
 import 'isomorphic-fetch';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 import { CALL_API } from '../../middleware/api';
 
 import {

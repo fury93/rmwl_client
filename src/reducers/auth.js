@@ -24,6 +24,7 @@ import {
 const initialState = {
     user: null,
     roles: null,
+    vendorStatus: null,
     loggingIn: false,
     loggingOut: false,
     loginError: null,
@@ -47,6 +48,7 @@ export default function auth(state = initialState, action = {}) {
                 loggingIn: false,
                 user: action.user,
                 roles: action.roles,
+                vendorStatus: action.vendorStatus,
                 authStatus: AUTH_SUCCESS
             });
         case LOGIN_FAILURE:
@@ -54,6 +56,7 @@ export default function auth(state = initialState, action = {}) {
                 loggingIn: false,
                 user: null,
                 roles: null,
+                vendorStatus: null,
                 loginError: action.error,
                 authStatus: AUTH_FAILED
             });

@@ -61,6 +61,7 @@ function callApi(callAPI, next) {
             }
         })
         .catch((error) => {
+            next(spinnerStop());
             error = parseError(error);
 
             if (validation) {

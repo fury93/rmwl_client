@@ -10,6 +10,8 @@ import {reducer as formReducer} from 'redux-form';
 
 import {userReducer, usersPage} from '../reducers/user';
 import {productReducer, productsPage} from '../reducers/product';
+import {locationReducer, locationsPage} from '../reducers/location';
+import {vendorReducer, vendorsPage} from '../reducers/vendor';
 import rolesPageReducer from '../reducers/admin/rolePage';
 import userPermissionReducer from '../reducers/admin/userPermissionPage';
 
@@ -24,6 +26,12 @@ const rootReducer = combineReducers(
 
         users: userReducer,
         usersPage,
+
+        locations: locationReducer,
+        locationsPage,
+
+        vendors: vendorReducer,
+        vendorsPage,
 
         products: productReducer,
         productsPage,

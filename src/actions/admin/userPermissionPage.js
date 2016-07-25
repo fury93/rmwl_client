@@ -5,7 +5,6 @@ import {
     parseError,
     getUserToken
 } from '../../utils/utils';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 import { CALL_API } from '../../middleware/api';
 
 export const USER_PERMISSIONS_REQUEST = 'USER_PERMISSIONS_REQUEST';

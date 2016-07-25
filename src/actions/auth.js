@@ -9,7 +9,6 @@ import {
     parseError
 } from '../utils/utils';
 import { CALL_API } from '../middleware/api';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../api/config';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -68,15 +67,15 @@ function loginRequest() {
 }
 
 function loginSuccess(data) {
-    let profile = data.user;
-    let roles = data.roles;
+    const {user, roles, vendorStatus }= data;
 
-    setIdToken(JSON.stringify(profile.token));
+    setIdToken(JSON.stringify(user.token));
 
     return {
         type: LOGIN_SUCCESS,
-        user: profile,
-        roles: roles
+        user,
+        roles,
+        vendorStatus
     };
 }
 

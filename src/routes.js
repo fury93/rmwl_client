@@ -11,6 +11,9 @@ import RolesPage from './containers/admin/role/RolesPage';
 import UsersPermissionPage from './containers/admin/role/UsersPermissionPage';
 import Users from './components/user/Users';
 import Products from './components/product/Products';
+import Product from './containers/product/Product';
+import Vendors from './components/vendor/Vendors';
+import Locations from './components/location/Locations';
 import NotFound from './containers/misc/NotFound';
 import Forbidden from './containers/misc/Forbidden';
 import Unauthorized from './containers/misc/Unauthorized';
@@ -23,15 +26,20 @@ export const routes = (
             <Route path="/change-password" component={ChangePassword}/>
             <Route path="/403" component={Forbidden}/>
             <Route path="/401" component={Unauthorized}/>
+            <Route path="/404" component={NotFound}/>
 
             <Route component={RestrictPage}>
                 <IndexRoute component={Home}/>
 
                 <Route path="/inventory/products" component={Products}/>
+                <Route path="/inventory/products/:productId" component={Product}/>
+
+                <Route path="/inventory/vendors" component={Vendors}/>
 
                 <Route path="/admin/users" component={Users}/>
                 <Route path="/admin/roles" component={RolesPage}/>
                 <Route path="/admin/users-permission" component={UsersPermissionPage}/>
+                <Route path="/admin/locations" component={Locations}/>
             </Route>
 
             <Route path="*" component={NotFound}/>

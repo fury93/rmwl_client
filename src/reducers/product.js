@@ -9,7 +9,7 @@ const baseReducers = reduxCrud.reducersFor('products', {store: reduxCrud.STORE_M
 const defaultProductPageStore = {
     selectedProduct: {},
     tableSize: {
-        width: 900,
+        width: 1200,
         height: 700
     }
 };

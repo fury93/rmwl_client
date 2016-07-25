@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import {loadUserPermission, updateUserPermission} from '../../../actions/admin/userPermissionPage';
 import RolePermission from './RolePermission';
-import userActions from '../../../actions/user/user';
+import {loadUsersList} from '../../../actions/application';
 import UserPermission from './UserPermission';
 
 import './role.css';
@@ -19,28 +19,15 @@ class UsersPermissionPage extends Component {
 
     componentWillMount() {
         const {dispatch} = this.props;
-        dispatch(userActions.fetch());
+        dispatch(loadUsersList());
     }
 
     componentWillReceiveProps(nextProps) {
         const {users} = nextProps;
-        var options = this.getOptions(users);
-        this.setState({selectValues: options});
-    }
-
-    //Get options for select
-    getOptions = (users) => {
-        var values = [];
-
-        for (var i = 0; i < users.length; i++) {
-            values.push({
-                value: users[i].id,
-                label: users[i].username
-            });
+        if(!users.loading && users.users.length > 0) {
+            this.setState({selectValues: users.users});
         }
-
-        return values;
-    };
+    }
 
     changeUser = (active) => {
         const {dispatch, usersPermission} = this.props;
@@ -62,7 +49,7 @@ class UsersPermissionPage extends Component {
         console.log('render');
         return (
             <div>
-                {users.length > 0 &&
+                {users.users.length > 0 &&
                 <div className="row col-md-4">
                     <Select
                         name="form-field-name"
@@ -73,7 +60,7 @@ class UsersPermissionPage extends Component {
                 </div>
                 }
 
-                {users.length === 0 &&
+                {users.users.length === 0 &&
                     <div className="alert alert-warning">Oops, nothing to show.</div>
                 }
 
@@ -91,16 +78,16 @@ class UsersPermissionPage extends Component {
 }
 
 UsersPermissionPage.propTypes = {
-    usersPermission: React.PropTypes.object.isRequired,
-    usersModules: React.PropTypes.object.isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    usersPermission: PropTypes.object.isRequired,
+    usersModules: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         usersPermission: state.usersPermissionPage.usersPermission,
         usersModules: state.usersPermissionPage.usersModules,
-        users: state.users
+        users: state.app.usersList
     };
 }
 

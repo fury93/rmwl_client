@@ -7,7 +7,6 @@ import {
 } from '../../utils/utils';
 import { CALL_API } from '../../middleware/api';
 import {spinnerStart, spinnerStop} from '../application';
-import {API_URL, STATUS_SUCCESS, STATUS_FAIL} from '../../api/config';
 
 export const ROLES_PERMISSIONS_REQUEST = 'ROLES_PERMISSIONS_REQUEST';
 export const ROLES_PERMISSIONS_SUCCESS = 'ROLES_PERMISSIONS_SUCCESS';

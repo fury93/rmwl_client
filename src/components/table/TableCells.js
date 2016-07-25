@@ -40,17 +40,28 @@ export class LinkCell extends Component {
 
 export class ActionsCell extends Component {
     render() {
-        const {rowIndex, field, data, eventDelete, eventEdit,  ...props} = this.props;
+        const {rowIndex, field, data, eventDelete, eventEdit, eventView,   ...props} = this.props;
         const id = data[rowIndex][field];
 
         return (
             <Cell {...props}>
-                <button type="button" className="btn btn-danger" onClick={() =>eventDelete(data[rowIndex])}>
-                    Delete
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() =>eventEdit(data[rowIndex])}>
-                    Edit
-                </button>
+                {eventDelete &&
+                    <button type="button" className="btn btn-danger" onClick={() =>eventDelete(data[rowIndex])}>
+                        Delete
+                    </button>
+                }
+
+                {eventEdit &&
+                    <button type="button" className="btn btn-primary" onClick={() =>eventEdit(data[rowIndex])}>
+                        Edit
+                    </button>
+                }
+
+                {eventView &&
+                    <button type="button" className="btn btn-success" onClick={() =>eventView(data[rowIndex])}>
+                        View
+                    </button>
+                }
             </Cell>
         );
     }

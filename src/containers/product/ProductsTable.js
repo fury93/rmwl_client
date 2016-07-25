@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import productActions from '../../actions/product/product'
-import {setActiveProduct, resizeProductTable} from '../../actions/product/productPage'
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import productActions from '../../actions/product/product';
+import {setActiveProduct, resizeProductTable} from '../../actions/product/productPage';
 import {Table, Column, Cell} from 'fixed-data-table';
-import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells'
+import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells';
+
 import {vendors} from './ProductForm';
 
 import {tableDidMount, tableWillUnmount, getTableHeight, getTableWidth} from '../../utils/tableResize';
@@ -40,10 +42,16 @@ class ProductsTable extends Component {
         dispatch(productActions.delete(product));
     };
 
-    eventEditProduct = (product) => {
+    eventViewProduct = (product) => {
         const {dispatch} = this.props;
         dispatch(setActiveProduct(product));
+        browserHistory.push(`/inventory/products/${product.id}`);
     };
+
+/*    eventEditProduct = (product) => {
+        const {dispatch} = this.props;
+        dispatch(setActiveProduct(product));
+    };*/
 
     render() {
         const {products, productsTableSize} = this.props;
@@ -67,7 +75,7 @@ class ProductsTable extends Component {
                         <Column
                             header={<Cell>Name</Cell>}
                             cell={<TextCell data={products} field="name" />}
-                            width={100}
+                            width={200}
                         />
                         <Column
                             header={<Cell>Exp</Cell>}
@@ -82,12 +90,12 @@ class ProductsTable extends Component {
                         <Column
                             header={<Cell>Vendor</Cell>}
                             cell={
-                        <TextCellFormat
-                           data={products}
-                           field="vendor_id"
-                           collection={vendors}
-                           />
-                        }
+                                <TextCellFormat
+                                   data={products}
+                                   field="vendor_id"
+                                   collection={vendors}
+                                />
+                            }
                             width={100}
                         />
                         <Column
@@ -108,12 +116,13 @@ class ProductsTable extends Component {
                         <Column
                             header={<Cell>Action</Cell>}
                             cell={
-                        <ActionsCell
-                             data={products}
-                             eventEdit={this.eventEditProduct}
-                             eventDelete={this.eventDeleteProduct}
-                             field="id"
-                        />}
+                                <ActionsCell
+                                     data={products}
+                                     eventDelete={this.eventDeleteProduct}
+                                     eventView={this.eventViewProduct}
+                                     field="id"
+                                />
+                            }
                             width={200}
                         />
                     </Table>
