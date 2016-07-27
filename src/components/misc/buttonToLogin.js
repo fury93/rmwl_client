@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-
 class ButtonToLogin extends Component {
     goToLogin = () => {
         browserHistory.push('/login');
