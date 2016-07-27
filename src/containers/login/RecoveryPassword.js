@@ -7,7 +7,7 @@ import {
     RECOVERY_PASS_FAILURE,
     RECOVERY_PASS_SUCCESS
 } from '../../actions/auth';
-import ButtonToLogin from '../../components/misc/ButtonToLogin';
+import ToLogin from '../../components/misc/ToLogin';
 
 class RecoveryPassword extends Component {
 
@@ -72,7 +72,7 @@ class RecoveryPassword extends Component {
 
                                                 {
                                                     recoveryPassword.status === RECOVERY_PASS_SUCCESS &&
-                                                    <ButtonToLogin
+                                                    <ToLogin
                                                         value="Back to login"
                                                     />
                                                 }

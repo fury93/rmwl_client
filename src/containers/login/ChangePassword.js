@@ -7,7 +7,7 @@ import {
     CHANGE_PASS_FAILURE,
     CHANGE_PASS_SUCCESS
 } from '../../actions/auth';
-import ButtonToLogin from '../../components/misc/ButtonToLogin';
+import ToLogin from '../../components/misc/ToLogin';
 
 class ChangePassword extends Component {
 
@@ -88,7 +88,7 @@ class ChangePassword extends Component {
 
                                                 {
                                                     changePassword.status === CHANGE_PASS_SUCCESS &&
-                                                    <ButtonToLogin
+                                                    <ToLogin
                                                         value="Back to login"
                                                     />
                                                 }

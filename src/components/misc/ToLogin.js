@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-class ButtonToLogin extends Component {
+class ToLogin extends Component {
     goToLogin = () => {
         browserHistory.push('/login');
     };
@@ -21,8 +21,8 @@ class ButtonToLogin extends Component {
     }
 }
 
-ButtonToLogin.propTypes = {
+ToLogin.propTypes = {
     value: PropTypes.string.isRequired
 };
 
-export default ButtonToLogin;
+export default ToLogin;
