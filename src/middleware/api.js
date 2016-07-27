@@ -9,7 +9,7 @@ import {
 import {spinnerStart, spinnerStop} from '../actions/application';
 import {changeAuthStatus, AUTH_FAILED} from '../actions/auth';
 
-const BASE_URL = 'http://rmwl-api.loc';// local dew server name
+const BASE_URL = 'http://rmapi.runasis.com';// dev server
 
 const STATUS_SUCCESS = 'success';
 const STATUS_FAIL = 'error';
