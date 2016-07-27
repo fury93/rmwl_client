@@ -54,11 +54,7 @@ module.exports = {
                 query: {limit: 10240}
             }
         ]
-    },
-    /*  watch: true,
-     watchOptions: {
-     aggregateTimeout: 500
-     }*/
+    }
 };
 
 

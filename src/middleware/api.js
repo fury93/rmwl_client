@@ -8,8 +8,7 @@ import {
 } from '../utils/utils';
 import {spinnerStart, spinnerStop} from '../actions/application';
 import {changeAuthStatus, AUTH_FAILED} from '../actions/auth';
-
-const BASE_URL = 'http://rmapi.runasis.com';// dev server
+import apiConfig from '../config/config';
 
 const STATUS_SUCCESS = 'success';
 const STATUS_FAIL = 'error';
@@ -46,7 +45,7 @@ function callApi(callAPI, next) {
     next(spinnerStart());
     callActions(requestAction, body, requestArgs, next);
 
-    return fetch(BASE_URL + endpoint, config)
+    return fetch(apiConfig.BASE_URL + endpoint, config)
         .then(checkStatus)
         .then(parseJSON)
         .then((result) => {
