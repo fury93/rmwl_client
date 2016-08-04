@@ -87,7 +87,8 @@ class Vendor extends Component {
 }
 
 Vendor.propTypes = {
-    vendors: PropTypes.array.isRequired
+    vendors: PropTypes.array.isRequired,
+    vendor: PropTypes.array.isObject
 };
 
 const mapStateToProps = (state) => {

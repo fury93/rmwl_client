@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux'
-import locationActions from '../../actions/location/location'
+import locationActions from '../../actions/location/location';
 import {setActiveLocation, resizeLocationTable} from '../../actions/location/locationPage'
 import {Table, Column, Cell} from 'fixed-data-table';
 import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells'
@@ -103,14 +102,3 @@ LocationsTable.propTypes = {
     locationsTableSize: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
 };
-
-const mapStateToProps = (state) => {
-    return {
-        locations: state.locations || [],
-        locationsTableSize: state.locationsPage.tableSize
-    };
-};
-
-export default connect(
-    mapStateToProps
-)(LocationsTable);

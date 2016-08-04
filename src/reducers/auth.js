@@ -25,6 +25,7 @@ const initialState = {
     user: null,
     roles: null,
     vendorStatus: null,
+    locations: null,
     loggingIn: false,
     loggingOut: false,
     loginError: null,
@@ -46,9 +47,10 @@ export default function auth(state = initialState, action = {}) {
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
                 loggingIn: false,
-                user: action.user,
-                roles: action.roles,
-                vendorStatus: action.vendorStatus,
+                user: action.payload.user || [],
+                roles: action.payload.roles || [],
+                vendorStatus: action.payload.vendorStatus || [],
+                locations: action.payload.locations || [],
                 authStatus: AUTH_SUCCESS
             });
         case LOGIN_FAILURE:
@@ -57,6 +59,7 @@ export default function auth(state = initialState, action = {}) {
                 user: null,
                 roles: null,
                 vendorStatus: null,
+                locations: null,
                 loginError: action.error,
                 authStatus: AUTH_FAILED
             });

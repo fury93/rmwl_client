@@ -8,11 +8,12 @@ import DateInput from '../../components/misc/DateInput';
 import {zeroTime} from '../../utils/utils';
 
 export const fields = ['id', 'vendor_id', 'name', 'code', 'description', 'status', 'unit_of_measure', 'product_class',
-    'uom', 'cost', 'cost_per_unit', 'price_per_unit', 'effective_date', 'expiration_date'];
+    'uom', 'cost', 'cost_per_unit', 'price_per_unit', 'effective_date', 'expiration_date', 'locations'];
 export const vendors = ['Vendor1', 'Vendor2', 'Vendor3', 'Super Vendor'];
 export const statuses = ['Status1', 'Status2'];
 export const productClasses = ['Class1', 'Class2'];
 export const unitsOfMeasure = ['G', 'Mg', 'Kg'];
+//export const locationList = [{id: 1, name: 'Location1'}, {id: 2, name: 'Location2'}];
 
 var TODAY = zeroTime(new Date());
 
@@ -31,10 +32,11 @@ class ProductForm extends Component {
     render() {
         const {
             fields: { id, vendor_id, name, code, description, status, unit_of_measure, product_class, uom,
-                cost, cost_per_unit, price_per_unit, effective_date, expiration_date},
+                cost, cost_per_unit, price_per_unit, effective_date, expiration_date, locations},
             clearForm,
             handleSubmit,
-            isClear
+            isClear,
+            locationList
             } = this.props;
         const submitting = false;
 
@@ -170,6 +172,19 @@ class ProductForm extends Component {
                         <div className="help-block">{unit_of_measure.error}</div>}
                     </div>
 
+                    {/* TODO LOCATIONS*/}
+                    <div className={classNames('form-group', {'has-error': locations.error})}>
+                        <label className="control-label">Locations</label>
+                        <div>
+                            <select multiple {...locations} className="form-control">
+                                {locationList.map(location =>
+                                    <option value={location.value} key={location.label}>{location.label}</option>)}
+                            </select>
+                        </div>
+                        {locations.touched && locations.error &&
+                        <div className="help-block">{locations.error}</div>}
+                    </div>
+
                     <div className={classNames('form-group', {'has-error': description.error})}>
                         <label className="control-label">Description</label>
                         <div>
@@ -210,7 +225,8 @@ ProductForm = reduxForm({
         fields
     },
     state => ({
-        initialValues: state.productsPage.selectedProduct
+        initialValues: state.productsPage.selectedProduct,
+        locationList: state.auth.locations
     }),
     {clearForm: clearActiveProduct}
 )(ProductForm);

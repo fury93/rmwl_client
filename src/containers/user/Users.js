@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import UserForm from '../../containers/user/UserForm';
-import UserTable from '../../containers/user/UsersTable';
-import userActions from '../../actions/user/user';
-
+import UserTable from '../../components/user/UsersTable';
 
 class Users extends Component {
 
@@ -13,7 +11,7 @@ class Users extends Component {
         return (
             <div id="row">
                 <div className="col-md-6">
-                    <UserTable />
+                    <UserTable {...this.props} />
                 </div>
                 <div className="col-md-6">
                     <UserForm/>
@@ -23,4 +21,13 @@ class Users extends Component {
     }
 }
 
-export default Users;
+const mapStateToProps = (state) => {
+    return {
+        users: state.users || [],
+        usersTableSize: state.usersPage.tableSize
+    };
+};
+
+export default connect(
+    mapStateToProps
+)(Users);

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import LocationForm from '../../containers/location/LocationForm';
-import LocationsTable from '../../containers/location/LocationsTable';
-
+import LocationsTable from '../../components/location/LocationsTable';
 
 class Locations extends Component {
 
@@ -10,7 +9,7 @@ class Locations extends Component {
         return (
             <div id="row">
                 <div className="col-md-6">
-                    <LocationsTable />
+                    <LocationsTable {...this.props} />
                 </div>
                 <div className="col-md-6">
                     <LocationForm/>
@@ -20,4 +19,14 @@ class Locations extends Component {
     }
 }
 
-export default Locations;
+
+const mapStateToProps = (state) => {
+    return {
+        locations: state.locations || [],
+        locationsTableSize: state.locationsPage.tableSize
+    };
+};
+
+export default connect(
+    mapStateToProps
+)(Locations);

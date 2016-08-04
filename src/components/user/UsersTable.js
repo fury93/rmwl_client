@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 import userActions from '../../actions/user/user'
 import {setActiveUser, resizeUserTable} from '../../actions/user/userPage'
 import {Table, Column, Cell} from 'fixed-data-table';
@@ -33,7 +32,6 @@ class UsersTable extends Component {
         const { dispatch } = this.props;
         dispatch(resizeUserTable(this.getTableWidth(), this.getTableHeight()));
     };
-
 
     eventDeleteUser(user) {
         const {dispatch} = this.props;
@@ -104,13 +102,4 @@ UsersTable.propTypes = {
     dispatch: React.PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        users: state.users || [],
-        usersTableSize: state.usersPage.tableSize
-    };
-};
-
-export default connect(
-    mapStateToProps
-)(UsersTable);
+export default UsersTable;

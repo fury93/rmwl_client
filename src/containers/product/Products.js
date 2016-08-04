@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import ProductForm from '../../containers/product/ProductForm';
-import ProductsTable from '../../containers/product/ProductsTable';
+import ProductsTable from '../../components/product/ProductsTable';
 
 class Products extends Component {
 
@@ -10,7 +10,7 @@ class Products extends Component {
         return (
             <div id="row">
                 <div className="col-md-6">
-                    <ProductsTable />
+                    <ProductsTable {...this.props}/>
                 </div>
                 <div className="col-md-6">
                     <ProductForm
@@ -22,4 +22,13 @@ class Products extends Component {
     }
 }
 
-export default Products;
+const mapStateToProps = (state) => {
+    return {
+        products: state.products || [],
+        productsTableSize: state.productsPage.tableSize
+    };
+};
+
+export default connect(
+    mapStateToProps
+)(Products);

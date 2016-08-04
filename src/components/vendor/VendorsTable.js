@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import vendorActions from '../../actions/vendor/vendor';
 import { browserHistory } from 'react-router';
 import {setActiveVendor, resizeVendorTable} from '../../actions/vendor/vendorPage';
@@ -117,13 +116,4 @@ VendorsTable.propTypes = {
     dispatch: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        vendors: state.vendors || [],
-        vendorsTableSize: state.vendorsPage.tableSize
-    };
-};
-
-export default connect(
-    mapStateToProps
-)(VendorsTable);
+export default VendorsTable;

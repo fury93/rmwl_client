@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import productActions from '../../actions/product/product';
 import {setActiveProduct, resizeProductTable} from '../../actions/product/productPage';
 import {Table, Column, Cell} from 'fixed-data-table';
 import {TextCell, LinkCell, ActionsCell, TextCellFormat} from '../../components/table/TableCells';
 
-import {vendors} from './ProductForm';
+import {vendors} from '../../containers/product/ProductForm';
 
 import {tableDidMount, tableWillUnmount, getTableHeight, getTableWidth} from '../../utils/tableResize';
 
@@ -203,13 +202,4 @@ ProductsTable.propTypes = {
     dispatch: React.PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products || [],
-        productsTableSize: state.productsPage.tableSize
-    };
-};
-
-export default connect(
-    mapStateToProps
-)(ProductsTable);
+export default ProductsTable;

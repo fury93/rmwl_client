@@ -73,9 +73,7 @@ function loginSuccess(data) {
 
     return {
         type: LOGIN_SUCCESS,
-        user,
-        roles,
-        vendorStatus
+        payload: data
     };
 }
 

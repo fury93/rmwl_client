@@ -1,50 +1,15 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import api from '../middleware/api';
 import createLogger from 'redux-logger';
-import auth from '../reducers/auth';
-import app from '../reducers/application';
-import reduxCrud from 'redux-crud';
-import {reducer as formReducer} from 'redux-form';
-
-import {userReducer, usersPage} from '../reducers/user';
-import {productReducer, productsPage} from '../reducers/product';
-import {locationReducer, locationsPage} from '../reducers/location';
-import {vendorReducer, vendorsPage} from '../reducers/vendor';
-import rolesPageReducer from '../reducers/admin/rolePage';
-import userPermissionReducer from '../reducers/admin/userPermissionPage';
+import rootReducer from '../reducers/index';
 
 const logger = createLogger();
-const rootReducer = combineReducers(
-    {
-        auth,
-        app,
-
-        rolesPage: rolesPageReducer,
-        usersPermissionPage: userPermissionReducer,
-
-        users: userReducer,
-        usersPage,
-
-        locations: locationReducer,
-        locationsPage,
-
-        vendors: vendorReducer,
-        vendorsPage,
-
-        products: productReducer,
-        productsPage,
-
-        form: formReducer,
-        routing: routerReducer
-    }
-);
-
 const initialState = {};
 
 export default function configureStore() {
     let store;
+
     if (module.hot) {
         store = createStore(rootReducer, initialState, compose(
             applyMiddleware(thunkMiddleware, api, logger),
