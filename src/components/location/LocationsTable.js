@@ -102,3 +102,5 @@ LocationsTable.propTypes = {
     locationsTableSize: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
 };
+
+export default LocationsTable;

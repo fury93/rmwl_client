@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LocationForm from '../../containers/location/LocationForm';
+import LocationForm from './LocationForm';
 import LocationsTable from '../../components/location/LocationsTable';
 
 class Locations extends Component {
